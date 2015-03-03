@@ -8,86 +8,84 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <title>弹出窗口</title>
         <style>
-        *{padding: 0;margin: 0;}
+        *{padding: 0;margin: 0;box-sizing:border-box;}
         .overlay{
             position: fixed;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
-            z-index: -1;
+            z-index: 999;
             background-color: rgba(0,0,0,0.8);
             display: none;
-        }
-        .overlay.active{
-            z-index: 999;
-            display: block;
         }
         .modal{
             background-color: #fff;
             width: 80%;
             border-radius: 5px;
             overflow: hidden;
-            opacity: 0;
             z-index: 1000;
             position: absolute;
             top: 50%;
             left: 10%;
             transform:translateY(-50%);
         }
-        .active .modal.modal-in{
-            opacity: 1;
-        }
-        .active .modal .modal-hd{
+        .modal .modal-hd{
             text-align: center;
             line-height: 40px;
             background-color: #0097e0;
             color: #fff;
             font-size: 16px;
+            position: relative;
+            z-index: 2;
         }
-        .active .modal .modal-bd{
+        .modal .close{
+            position: absolute;
+            top: 0;
+            right: 10px;
+            height: 40px;
+            line-height: 40px;
+            z-index: 3;
+            color: #999;
+        }
+        .modal .modal-hd~.close{
+            color: #fff;
+        }
+        .modal .modal-bd{
             padding:10px;
             font-size: 12px;
         }
-        .active .modal .modal-ft{
+        .modal .modal-ft{
             border-top: 1px solid #ddd;
             background-color: #f1f1f1;
             line-height: 40px;
             font-size: 14px;
             text-align: center;
         }
-        .active .not-support .modal-bd{
-            padding: 20px 10px;
+        .modal .modal-ft .btn{
+            display: inline-block;
+            width: 50%;
+            height: 40px;
+            line-height: 40px;
+            border:none;
+            background:none;
         }
-        .active .not-support .modal-bd .theme{
-            font-size: 17px;
-            font-weight: bold;
-            text-align: center;
-        }
-        .active .not-support .modal-bd .tip{
-            font-size: 14px;
-            text-align: center;
-            color: #0097e0;
+        .modal .modal-ft .btn:first-child{
+            border-right:1px solid #ddd;
         }
         </style>
       </head>
     <body>
         <span class="modal-link" data-modal="modal-test">弹出窗口</span>
-        <a href="###" id="lee">弹出</a>
-        <div class="overlay">
-            <section class="modal not-support modal-test">
-                <div class="modal-hd">标题</div>
-                <div class="modal-bd">
-                    <p class="theme">抱歉，暂不支持预定！</p>
-                    <p class="tip">如有任何问题请致电 400-619-8800</p>
-                </div>
-                <div class="modal-ft">
-                    <div class="btn-modal">
-                        <a href="###" >确定</a>
-                        <a href="###">取消</a>
-                    </div>
-                </div>
-            </section>
+        <span id="lee">弹出</span>
+        <button class="btn"></button>
+        <div style="display:none;">
+            <div id="content">
+                <p>1人同行</p>
+                <p><a href="#">close</a></p>
+                <p>3人同行</p>
+                <p>4人同行</p>
+            </div>
         </div>
         <script src="zeptojs/src/zepto.js"></script>
         <script src="zeptojs/src/event.js"></script>
@@ -95,49 +93,122 @@
         <script src="zeptojs/src/fx.js"></script>
         <script src="zeptojs/src/ajax.js"></script>
         <script>
-        // ;$(function(){
-        //     var $overlay = $(".overlay");
-
-        //     $('.modal-link').tap(function(){
-        //         var $that = $(this);
-        //         var $modal = $('.' + $(this).data('modal'));
-        //         $overlay.addClass('active');
-        //         $modal.addClass('modal-in').css({"display":"block"});
-
-        //         $overlay.tap(function(){
-        //             modalHidden($modal);
-        //         });
-        //         $('.btn-modal').tap(function(e){
-        //              modalHidden($modal);
-        //              e.stopPropagation();
-        //          });
-
-        //     })
-
-
-
-        //     var modalHidden = function($ele){
-        //         $ele.removeClass("modal-in").css({"display":"none"});
-        //         $overlay.removeClass("active");
-
-        //     }
-        // });
-
-        ;$(function(){
-
-            var Popup = function(opts){
+        $(function(){
+            var my = {};
+            my.Popup = function(opts){
                 options = $.extend({
+                    title: '',
+                    showClose: true,
+                    showfooter: true,
+                    template: '',
+                    cancel: function(){
 
+                    },
+                    success: function(){
+
+                    },
+                    init: function(content){
+
+                    }
                 },opts);
+
+                var dom = $('<div class="overlay"><section class="modal">'+
+                    '<div class="modal-hd">标题</div>'+
+                    '<span class="close">×</span>'+
+                    '<div class="modal-bd"></div>'+
+                    '<div class="modal-ft">'+
+                    '<button class="btn">取消</button>'+
+                    '<button class="btn">确定</button>'+
+                    '</div></div></div>');
+                dom.modal = dom.find('.modal');
+                dom.hd = dom.find('.modal-hd');
+                dom.bd = dom.find('.modal-bd');
+                dom.ft = dom.find('.modal-ft');
+                dom.close = dom.find('.close');
+
+                var init = function(){
+                    setClose();
+                    setTitle();
+                    setFooter();
+                    setContent()
+                    dom.appendTo('body');
+                    autoClose();
+                    if(typeof options.init == 'function'){
+                        options.init(dom.bd);
+                    }
+                     
+                };
+
+                var show = function(){
+                    dom.show();
+                }
+
+                var hide = function(){
+                    dom.hide();
+                }
+
+                var autoClose = function(){
+                    $(dom).on('tap',function(){
+                        hide();
+                    });
+                    $(dom.modal).on('tap',function(){
+                        return false;
+                    });
+                }
+
+                var setClose = function(){
+                    if(options.showClose == true){
+                        dom.close.on('tap',function(){
+                            hide();
+                        })
+                    }else{
+                        dom.close.remove();
+                    }
+                }
+
+                var setTitle = function(){
+                    if(!options.title){
+                        dom.hd.remove();
+                    }else{
+                        dom.hd.html(options.title);
+                    }
+                }
+                var setContent = function(){
+
+                    if(options.template.indexOf('#') == 0 || options.template.indexOf('.') == 0){
+                        dom.bd.append($(options.template));
+                    }else{
+                        dom.bd.html(options.template);
+                    }
+                }
+
+                var setFooter = function(){
+                    if(options.showfooter == false){
+                        dom.ft.remove();
+                    }else{
+                        dom.ft.on('tap',function(){
+                            hide();
+                        })
+                    }
+                }
+
+
+                this.show = show;
+                this.hide = hide;
+
+                init();
 
             }
 
-            var popup = new Popup({
-
+            var popup = new my.Popup({
+                title: '这是标题',
+                showClose: true,
+                showfooter: true,
+                template: '#content'
             });
-            $('#lee').on('tap',function(){
-                console.log(popup);
-            })
+            $('#lee').tap(function(){
+                popup.show();
+            });
         });
 
         </script>
