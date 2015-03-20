@@ -82,7 +82,7 @@
         <div style="display:none;">
             <div id="content">
                 <p>1人同行</p>
-                <p><a href="#">close</a></p>
+                <p><a href="#" class="close1">close</a></p>
                 <p>3人同行</p>
                 <p>4人同行</p>
             </div>
@@ -107,7 +107,7 @@
                     success: function(){
 
                     },
-                    init: function(content){
+                    init: function(container){
 
                     }
                 },opts);
@@ -204,7 +204,18 @@
                 title: '这是标题',
                 showClose: true,
                 showfooter: true,
-                template: '#content'
+                template: '#content',
+                cancel: function(){
+
+                },
+                success: function(){
+
+                },
+                init: function(container){
+                    container.find('.close1').tap(function(){
+                        popup.hide();
+                    });
+                }
             });
             $('#lee').tap(function(){
                 popup.show();
