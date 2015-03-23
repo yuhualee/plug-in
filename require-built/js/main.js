@@ -1,0 +1,1 @@
+require(["manager","jquery"],function(e){e.addNewStudent("lee","female"),e.addNewStudent("huxf","male"),e.addNewStudent("humh","female"),console.log(e.getMyClassSize())});

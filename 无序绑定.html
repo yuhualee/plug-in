@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>无序绑定</title>
+</head>
+<body>
+	<div id="div1">点击我吧</div>
+<script>
+function fn1(){
+	alert("fn1");
+}
+function fn2(){
+	alert("fn2");
+}
+function fn3(){
+	alert("fn3");
+}
+var n = 0;
+function fn4(){
+	n++;
+	if(n==2){
+		off(this,"click",fn5);
+		off(this,"click",fn6);
+	}
+	alert("fn4");
+}
+function fn5(){
+	alert("fn5");
+}
+function fn6(){
+	alert("fn6");
+}
+function fn7(){
+	alert("fn7");
+}
+
+
+function on(ele,type,handler){
+	if(ele.addEventListener){
+		ele.addEventListener(type,handler,false);
+	}else if(ele.attachEvent){
+		if(!ele["IEevent"+type]){
+			ele["IEevent"+type] = [];
+		}
+		var a = ele["IEevent"+type];
+		for(var i=0;i<a.length;i++){
+			if(a[i]==handler){
+				return;
+			}
+		}
+		a.push(handler);
+		if(!ele["attachEvent"+type]){
+			ele["attachEvent"+type] = function(){
+				run.call(ele);
+			}
+			ele.attachEvent("on"+type,ele["attachEvent"+type]);
+		}
+	}
+}
+function run(){//run的方法只是给ie6,7,8用，所以不用考虑其它浏览器
+	var e = window.event;
+	var type = e.type;
+	var a = this["IEevent"+type];
+	e.target = e.srcElement;
+	e.preventDefault = function(){
+		e.returnValue = false;
+	}
+	e.stopPropagation = function(){
+		e.cancelBubble = true;
+	}
+	e.pageX = (document.documentElement.scrollLeft||document.body.scrollLeft)+e.clientX;
+	e.pageY = (document.documentElement.scrollTop||document.body.scrollTop)+e.clientY;
+	for(var i=0;i<a.length;){
+		if(a[i]==null){
+			a.splice(i,1);
+		}else{
+			a[i].call(this,e);
+			i++;
+		}	
+	}
+}
+function off(ele,type,handler){
+	if(ele.removeEventListener){
+		ele.removeEventListener(type,handler);
+	}else if(ele.attachEvent){
+		var a = ele["IEevent"+type];
+		if(a){
+			for(var i=0;i<a.length;i++){
+				if(a[i]==handler){
+					// a.splice(i,1);如果删除了，那么后面的默认会往前排，在绑定多个的时候，就会出现跨越
+					a[i] = null;
+				}
+			}
+		}
+		// ele.attachEvent("on"+type,handler);
+	}
+}
+
+var ele = document.getElementById('div1');
+on(ele,"click",fn1);
+on(ele,"click",fn2);
+on(ele,"click",fn3);
+on(ele,"click",fn4);
+on(ele,"click",fn5);
+on(ele,"click",fn6);
+on(ele,"click",fn7);
+</script>
+</body>
+</html>

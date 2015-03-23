@@ -1,0 +1,1 @@
+define("pages",function(){});

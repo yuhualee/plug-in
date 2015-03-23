@@ -1,0 +1,1 @@
+({appDir:"./",baseUrl:"js",dir:"../require-built",paths:{jquery:"empty:"},modules:[{name:"index"},{name:"pages"}]});

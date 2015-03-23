@@ -1,0 +1,1 @@
+define(["require","exports","module"],function(e,t){console.log(e+t)});

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>checkbox</title>
+<style>
+	*{padding:0;margin:0;box-sizing:border-box;}
+
+	.formBox{width: 400px;margin:50px auto;overflow: hidden;zoom:1;}
+	.formBox li{float: left;display: inline;}
+	/*复选框*/
+	.checkbox{float:left;display:inline;width:16px;height: 16px;line-height: 16px;cursor: pointer;margin-right: 10px;}
+	.checkbox .input{display:block;width: 16px;height: 16px;border: 1px solid #dce0e0;background-color: #fff;border-radius: 3px;position: relative;}
+	.checked .input:after{position: absolute;width: 8px;height: 8px;content: "";left: 3px;top: 3px;background-color: #ff4861;border-radius: 2px;}
+	.checkbox input.input{display: none;}
+
+</style>
+<script src="jquery-1.11.2.min.js"></script>
+<script>
+;(function($){
+	$.fn.jCheckbox = function(settings){
+		settings = jQuery.extend({
+			wrapClass : "checkbox",
+			radioClass : "input",
+			checkedClass : "checked"
+		},settings);
+
+		return this.each(function(){
+
+			var _self = $(this);
+			var _obj;
+			var _checked;
+			var _parent;
+
+			// 通过 data 方法设置一个变量来记录是否已经初始化过 checkbox 插件
+			if(_self.data('is-init-checkbox'))
+				return ;
+			_self.data('is-init-checkbox', true);
+
+			var main = function(){
+				wrapHtml();
+				bindEvent();
+			}
+
+			var wrapHtml = function(){
+				_self.wrap('<label class="'+settings.wrapClass+'"></label>')
+					.before('<span class="'+settings.radioClass+'"></span>');
+				// 设置默认值
+				if(_self.prop('checked'))
+					_self.parent().addClass(settings.checkedClass);
+			}
+
+			var autoRender = function(node){
+                if(!node.data('is-init-checkbox'))
+                    return ;
+				if(node.prop('checked'))
+					node.parent().addClass(settings.checkedClass);
+				else
+					node.parent().removeClass(settings.checkedClass);
+			}
+
+			var bindEvent = function(){
+				_self.click(function(){
+					autoRender(_self);
+					$('input[name='+_self.attr('name')+']').each(function(){
+                        autoRender($(this));
+					});
+				});
+				// _self.on("change",function(){
+				// 	autoRender(_self);
+				// 	$('input[name='+_self.attr('name')+']').each(function(){
+    //                     autoRender($(this));
+				// 	});
+				// })
+			};
+			main();
+		});
+	}
+})(jQuery);
+
+$(function(){
+	function checkbox(){
+		$("input:checkbox,input:radio").jCheckbox({
+			wrapClass : "checkbox",
+			radioClass : "input",
+			checkedClass : "checked"
+		});
+	}
+	checkbox();
+});
+</script>
+</head>
+<body>
+	<ul class="formBox">
+		<li>
+			<input type="checkbox" class="input">李玉华
+		</li>
+		<li>
+			<input type="checkbox" class="input">李玉华
+		</li>
+	</ul>
+		<ul class="formBox">
+		<li>
+			<input type="radio" name="name" class="input">李玉华
+		</li>
+		<li>
+			<input type="radio" name="name" class="input">李玉华
+		</li>
+	</ul>
+</body>
+</html>

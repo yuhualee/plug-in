@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3d动画</title>
+<style>
+	*{padding: 0;margin: 0;}
+	.box{width: 800px;margin: 30px auto;}
+	#picList{height: 360px;-webkit-perspective:800px;-webkit-transform-origin:left;}
+	#picList li{width: 25px;height: 360px;position: relative;float: left;list-style: none;-webkit-transform-style:preserve-3d; transition:2s all; -webkit-transform:translateZ(-180px) rotateX(0deg);}
+	#picList a{position: absolute;left: 0;top: 0;width: 100%;height: 100%;}
+	#picList a:nth-of-type(1){background: url("http://dl.bizhi.sogou.com/images/2012/03/08/205204.jpg") no-repeat;background-size: cover;-webkit-transform:translateZ(180px);}
+	#picList a:nth-of-type(2){background: url("http://pic23.nipic.com/20120810/10603465_174706642186_2.jpg") no-repeat;background-size: cover;-webkit-transform-origin:top;-webkit-transform:translateZ(-180px) rotateX(90deg);}
+	#picList a:nth-of-type(3){background: url("http://pic10.nipic.com/20101028/3556745_200903073088_2.jpg") no-repeat;background-size: cover; -webkit-transform:translateZ(-180px) rotateX(180deg);}
+	#picList a:nth-of-type(4){background: url("http://pic4.nipic.com/20090930/3206545_093609002924_2.jpg") no-repeat;background-size: cover;-webkit-transform-origin:bottom;-webkit-transform:translateZ(-180px) rotateX(-90deg);}
+	#picList span{width: 360px;height: 360px;background: #333;position: absolute;top: 0;}
+	#picList span:nth-of-type(1){left: 0;-webkit-transform-origin:left; -webkit-transform:translateZ(180px) rotateY(90deg);}
+	#picList span:nth-of-type(2){right: 0;-webkit-transform-origin:right; -webkit-transform:translateZ(180px) rotateY(-90deg);}
+	#picList li:nth-of-type(1){z-index: 1;}
+</style>
+<script>
+	window.onload = function(){
+		var oPicList = document.getElementById("picList");
+		var oCss =document.getElementById("css");
+		var iLiw = 25;
+		var sHtml = "";
+		var sStyle = "";
+		var iLength = oPicList.clientWidth/iLiw;
+		for(var i=0; i<iLength;i++){
+			sStyle += '#picList li:nth-of-type(1){z-index: 1;}';
+			sHtml += '<li><a href="#"></a><a href="#"></a><a href="#"></a><a href="#"></a><a href="#"></a><span></span><span></span></li>';
+			oPicList.innerHTML = sHtml;
+		}
+	}
+</script>
+</head>
+<body>
+	<div class="box">
+		<ul id="picList">
+			<li>
+				<a href="#"></a>
+				<a href="#"></a>
+				<a href="#"></a>
+				<a href="#"></a>
+				<a href="#"></a>
+				<span></span>
+				<span></span>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

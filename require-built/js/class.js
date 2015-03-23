@@ -1,0 +1,1 @@
+define([],function(){var e=[];return{classId:"001",department:"computer",addToClass:function(t){e.push(t)},getClassSize:function(){return e.length}}});
