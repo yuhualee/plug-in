@@ -20,34 +20,26 @@
 <body> 
 	<div class="wrap">
 		<div class="box">
-			<input type="checkbox" name="lover">
+			<input type="checkbox" name="lover" checked="true">
 			<input type="checkbox" name="lover">
 			<input type="checkbox" name="lover">
 		</div>
 		<div class="box">
-			<input type="radio" name="sex">
+			<input type="radio" name="sex" checked="true">
 			<input type="radio"  name="sex">
 		</div>
-		<div class="box">
-			<span class="checkbox">
-				<input type="checkbox">
-			</span>
-			<span class="checkbox checked">
-				<input type="checkbox">
-			</span>
-		</div>
-		<div class="box">
-			<span class="radio">
-				<input type="radio"  name="sex">
-			</span>
-			<span class="radio checked">
-				<input type="radio"  name="sex">
-			</span>
-		</div>
 	</div>
-<script src=""></script>
+<script src="../jquery-1.11.2.min.js"></script>
+<script src="main.js"></script>
 <script>
-	
+$('input[type="radio"]:visible').jCheckbox({
+	wrapClass: 'radio',
+	checkedClass: 'checked'
+});	
+$('input[type="checkbox"]:visible').jCheckbox({
+	wrapClass: 'checkbox',
+	checkedClass: 'checked'
+});	
 </script>
 </body>
 </html>
