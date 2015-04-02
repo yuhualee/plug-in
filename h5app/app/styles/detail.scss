@@ -1,0 +1,257 @@
+/*@import "reset";*/
+@import "main";
+/*＝＝＝＝＝＝＝＝＝＝＝产品详情-活动概要＝＝＝＝＝＝＝＝＝*/ 
+.detail-activity{
+	.slide{
+		.slide-wrap{
+			position: relative;
+			overflow: hidden;
+			height: 100%;
+			// height: 200px;
+			.slide-ul{
+				overflow: hidden;
+				position: relative;
+				height: 200px;
+				.slider-li{
+					float: left;
+					width: 100%;
+					height: 100%;
+					position: relative;
+					text-align: center;
+					background-position: center center;
+					background-repeat: no-repeat;
+					background-size: cover;
+				}
+			}
+			.slide-point{
+				position: absolute;
+				bottom:10px;
+				text-align: center;
+				width: 100%;
+				.icon-point{
+					display: inline-block;
+					width: 10px;
+					height: 10px;
+					margin: 0 2px;
+					border-radius: 50%;
+					background-color: rgba(255,255,255,0.5);
+					cursor: pointer;
+					&.active{
+						background-color: rgba(255,255,255,1);
+					}
+				}
+			}
+		}
+		.detail{
+			padding:10px 15px;
+			overflow: hidden;
+			.theme{
+				display: block;
+				font-size: 14px;
+				line-height: 19px;
+				max-height: 38px;
+				margin-bottom: 5px;
+			}
+			.pic{
+				float: left;
+				height: 36px;
+			}
+			.price{
+				float: right;
+				height: 20px;
+				margin-top: 8px;
+				color: $redColor;
+				font-size: 11px;
+				b{
+					font-size: 19px;
+					line-height: 20px;
+					font-weight: normal;
+					margin-right: 2px;
+				}
+			}
+		}
+	}
+	.tab{
+		.tab-hd{
+			background-color: $bgColor;
+			border-bottom: 1px solid $borderColor;
+			.tab-hd-cell{
+				position: relative;
+				cursor: pointer;
+				&.current:after{
+					position: absolute;
+					bottom:-1px;
+					left: 0;
+					right: 0;
+					content: "";
+					width: 100%;
+					height: 2px;
+					overflow: hidden;
+					border-bottom: 2px solid $redColor;
+				}
+			}
+		}
+		.tab-bd{
+			.tab-bd-cell{
+				display: none;
+				&.current{
+					display: block;
+				}
+				.about-activity{
+					background-color: #fff;
+					border-bottom: 1px solid $borderColor;
+					padding-left: 15px;
+					.item{
+						dt{
+							position: relative;
+							height: 38px;
+							padding:12px 0 10px 24px;
+							border-bottom: 1px solid $borderColor;
+							h3{
+								color: $black;
+								font-size: 13px;
+								font-weight: normal;
+							}
+							.icon{
+								position: absolute;
+								left: 0;
+								top: 12px;
+								display: block;
+								width: 16px;
+								height: 16px;
+								@extend %bg-image;
+								&.icon01{
+									background-position: 0 0;
+								}
+							}
+						}
+						dd{
+							color: $gray;
+							.part{
+								margin: 12px 15px 12px 0;
+								line-height: 16px;
+								font-size: 12px;
+								margin-bottom: 30px;
+							}
+							.normal-list{
+								margin-bottom: 10px;
+								li{
+									padding-bottom: 5px;
+									padding-left: 60px;
+									padding-right: 15px;
+									line-height: 15px;
+									color: $black;
+									overflow: hidden;
+									.label{
+										display: inline-block;
+										width: 60px;
+										margin-left: -60px;
+										color: $gray;
+									}
+								}
+							}
+						}
+						.list-member{
+							.list-cell{
+								margin-left: 36px;
+								.pic{
+									margin-left: -36px;
+								}
+								.right-text{
+									position: relative;
+									color: $redColor;
+									padding-left: 20px;
+									&:after{
+										position: absolute;
+										left: 0;
+										top: 5px;
+										content: "";
+										width: 16px;
+										height: 16px;
+										@extend %bg-image;
+		            					background-position: -32px 0;
+									}
+								}
+							}
+							&:last-child{
+								padding-left: 0;
+								border-bottom: 1px solid $borderColor;
+								.label{
+									margin-left: 0;
+								}
+							}
+						}
+					}
+				}
+				.btn-box{
+					padding: 25px 15px 25px 0;
+				}
+			}
+			.other-user{
+				background-color: #fff;
+				padding-left: 15px;
+				margin-top: 15px;
+				border:{
+			        top:1px solid #dce0e0;
+			        bottom:1px solid #dce0e0;
+			    }
+				.hd{
+					height: 40px;
+        			line-height: 40px;
+        			border-bottom:1px solid $borderColor;
+        			padding-right: 15px;
+            		font-size: 15px;
+            		color: $black;
+            		font-weight: bold;
+				}
+				.product-list{
+					margin-right: 15px;
+					.list-cell{
+						position: relative;
+						padding:8px 0 28px;
+						border-bottom: 1px solid #eff1f1;
+						&:last-child{
+							border-bottom: none;
+						}
+						.theme{
+							max-height: 30px;
+							margin:5px 0;
+							line-height: 15px;
+							font-size: 13px;
+							color: $black;
+							.label{
+								font-weight: bold;
+							}
+						}
+						.total{
+							position: absolute;
+							bottom: 8px;
+							left: 0;
+							color: $gray;
+							font-size: 12px;
+							height: 16px;
+							line-height: 16px;
+							.num{
+								margin-right: 5px;
+							}
+						}
+						.price{
+							position: absolute;
+							bottom: 8px;
+							right: 0;
+							color: $redColor;
+							font-size: 12px;
+							height: 16px;
+							line-height: 16px;
+							b{
+								font-size: 16px;
+								font-weight: normal;
+								margin-right: 2px;
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
+}

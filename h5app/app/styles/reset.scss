@@ -1,0 +1,70 @@
+$redColor: #ff4861;
+$black: #5a5e60;
+$gray: #878d8f;
+$linkColor: #5a5e60 #ff4861 !default;
+$bgColor:#f7f7f7;
+$borderColor:#c6c6c6;
+html,body,h1,h2,h3,h4,h5,h6,ul,ol,form,dl,dt,dd,span,p,button,input,th,td,em{
+    margin:0px;
+    padding:0px; 
+}
+body{
+    font-family: "Helvetica Neue", Helvetica, STHeiTi,Arial, sans-serif; 
+    color: $black;
+    background-color: #eaeded;
+    font-size: 12px;
+    line-height: 1.5;
+     -webkit-overflow-scrolling: touch; 
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display: block;}
+audio,canvas,video{
+    display: inline-block;
+    vertical-align: baseline;
+}
+a{
+    background: transparent; 
+    text-decoration: none; 
+    -webkit-tap-highlight-color: transparent; 
+    color: nth($linkColor,1);
+    &:active {
+        outline: 0; 
+        color: nth($linkColor,2);
+    }
+}
+b,strong { font-weight: bold;}
+img {
+    border: 0; 
+    vertical-align: middle;
+}
+button,input,optgroup,select,textarea {
+    color: inherit; 
+    font: inherit; 
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    td,th {
+        padding: 0;
+    }
+}
+ul,li{
+    list-style: none;
+}
+*,*:after,*:before { 
+    -webkit-box-sizing: border-box; 
+       -moz-box-sizing: border-box; 
+            box-sizing: border-box; 
+}
+.fl{ float: left;}
+.fr{ float: right;}
+.red-color{color: $redColor;}
+.cf:before,.cf:after{
+    content: "";
+    display: table;
+}
+.cf:after{
+    clear: both;
+}
+.cf{
+    zoom:1;
+}

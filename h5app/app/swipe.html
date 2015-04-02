@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>产品详情</title>
+   
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:css styles/main.css -->
+        <!-- <link rel="stylesheet" href="styles/main.css"> -->
+        <!-- endbuild -->
+
+        <!-- build:css styles/detail.css -->
+        
+        <!-- endbuild -->
+
+        <style>
+            body{
+                /*padding: 0;*/
+                margin: 0;
+            }
+
+            .swipt-wrap{
+                height: 100%;
+                overflow: hidden;
+                /*border: 1px solid #f60;*/
+                position: relative;
+            }
+    
+            .slider-li{
+                height: 100%;
+                position: absolute;
+                width: 100%;
+                color: #fff;
+                text-align: center;
+            }
+
+            .slider-li.a{
+                background-color: #00A779;
+            }
+
+            .slider-li.b{
+                background-color: #0E53A7;
+            }
+
+            .slider-li.c{
+                background-color: #FF9C00;
+            }
+
+            .slider-li.d{
+                background-color: #FF5C00;
+            }
+            .slider-li .img{
+                position: absolute;
+                width: 90%;
+                height: 80%;
+                left: 5%;
+                top: 10%;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 90%;
+                opacity: 0;
+                z-index: 11;
+            }
+            .slider-li .text{
+                position: absolute;
+                left: 10%;
+                width: 80%;
+                height: 0;
+                bottom:10%;
+                font-size: 14px;
+                line-height: 21px;
+                z-index: 111;
+                text-align: left;
+                opacity: 0;
+            }
+            .slider-li .theme{
+                position: absolute;
+                left: 20%;
+                top: 15%;
+                font-size: 24px;
+                line-height: 26px;
+                z-index: 1111;
+                font-weight: normal;
+                width: 24px;
+                opacity: 0;
+            }
+            .animation .img{
+                transition:background-size .5s,opacity .5s;
+                background-size: 100%;
+                opacity: 1;
+            }
+            .animation .text{
+                transition:bottom 1s,opacity 1s,height 1s;
+                opacity: 1;
+                bottom: 15%;
+                height: auto;
+            }
+            .animation .theme{
+                transition:opacity 2s;
+                opacity: 1;
+            }
+            @keyframes  moveIcon {
+                0% {
+                    -webkit-transform: translateY(60%);
+                    transform: translateY(60%);
+                    opacity: 0;
+                }
+                50% {
+                    -webkit-transform: translateY(0%);
+                    transform: translateY(0%);
+                    opacity: 1;
+                }
+                100% {
+                    -webkit-transform: translateY(-60%);
+                    transform: translateY(-60%);
+                    opacity: 0;
+                }
+            }
+            @-webkit-keyframes  moveIcon {
+                0% {
+                    -webkit-transform: translateY(60%);
+                    transform: translateY(60%);
+                    opacity: 0;
+                }
+                50% {
+                    -webkit-transform: translateY(0%);
+                    transform: translateY(0%);
+                    opacity: 1;
+                }
+                100% {
+                    -webkit-transform: translateY(-60%);
+                    transform: translateY(-60%);
+                    opacity: 0;
+                }
+            }
+            .cursor{
+                position: absolute;
+                left: 46%;
+                bottom:5%;
+                width: 8%;
+                -webkit-animation:moveIcon ease-out 1s infinite;
+                animation:moveIcon ease-out 1s infinite;
+            }
+            .cursor img{
+                max-width: 100%;
+            }
+
+        </style>
+
+      </head>
+    <body>
+
+        <div class="swipt-wrap">
+            <div class="slider-li a animation">
+                <div class="img" style="background-image:url(http://api.topka.cn/assets/images/apps/wap/gaybuycar/dazhong_car.png);">
+                </div>
+                <div class="theme">&not;坚持</div>
+                <div class="text">我曾经跨过山和大海，也穿过人山人海，当你仍然还在幻想，你的明天viyaviay，它会好吗？还是更蓝。</div>
+                <div class="cursor">
+                    <img src="http://api.topka.cn/assets/images/apps/wap/gaybuycar/white_cursor.png" alt="">
+                </div>
+            </div>
+            <div class="slider-li b">
+                <div class="img" style="background-image:url(http://api.topka.cn/assets/images/apps/wap/gaybuycar/qirui_car.png);">
+                </div>
+                <div class="theme">&not;去大理</div>
+                <div class="text">既然不快乐，又不喜欢这里，不如一路向西去大理！路程有点波折，心里越寂寞，不知道谁在何处等待，不知道后来的后来！</div> 
+                <div class="cursor">
+                    <img src="http://api.topka.cn/assets/images/apps/wap/gaybuycar/white_cursor.png" alt="">
+                </div>
+            </div>
+            <div class="slider-li c">
+                <div class="img" style="background-image:url(http://api.topka.cn/assets/images/apps/wap/gaybuycar/aodi_car.png);">
+                </div>
+                <div class="theme">&not;坚持</div>
+                <div class="text">我曾经跨过山和大海，也穿过人山人海，当你仍然还在幻想，你的明天viyaviay，它会好吗？还是更蓝。</div>
+                <div class="cursor">
+                    <img src="http://api.topka.cn/assets/images/apps/wap/gaybuycar/white_cursor.png" alt="">
+                </div>
+            </div>
+            <div class="slider-li d"> D </div>
+        </div>
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="../bower_components/pjax/src/pjax.js"></script>
+        <script src="../bower_components/zeptojs/src/zepto.js"></script>
+        <script src="../bower_components/zeptojs/src/event.js"></script>
+        <script src="../bower_components/zeptojs/src/touch.js"></script>
+        <script src="../bower_components/zeptojs/src/fx.js"></script>
+        <script src="../bower_components/swipejs/swipe.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:js scripts/main.js -->
+        <script src="scripts/swipe.js"></script>
+        <!-- endbuild -->
+
+    </body>
+</body>
+</html>

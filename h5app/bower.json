@@ -1,0 +1,10 @@
+{
+  "name": "h5app",
+  "private": true,
+  "dependencies": {
+    "modernizr": "~2.8.1",
+    "pjax": "~0.1.4",
+    "swipejs": "~2.0.0",
+    "zeptojs": "~1.1.6"
+  }
+}

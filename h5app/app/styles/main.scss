@@ -1,0 +1,359 @@
+@import "reset";
+// 圆角
+@mixin rounded-corner($arc){
+    -webkit-border-radius:$arc;
+       -moz-border-radius:$arc;
+           border-radius: $arc;
+}
+// 旋转
+@mixin rotate($angle){
+    -webkit-transform:rotate($angle);
+        -ms-transform:rotate($angle);
+         -o-transform:rotate($angle); 
+            transform:rotate($angle);
+}
+// 平移
+@mixin transform($lper,$tper){
+    -webkit-transform: translate($lper,$tper);
+        -ms-transform: translate($lper,$tper);
+         -o-transform: translate($lper,$tper); 
+            transform: translate($lper,$tper);
+}
+// 箭头
+@mixin arrow($w,$bw,$bc,$nc){
+    display: block;
+    width: $w;
+    height: $w;
+    border:$bw solid $bc;
+    border-top-color: $nc;
+    border-right-color: $nc;
+    background-color: $nc;
+}
+// flex等分
+@mixin flex{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    .flex-cell{
+        -webkit-box-flex:1;
+                -ms-flex:1;
+            -webkit-flex:1;
+                    flex:1;
+    }
+}
+%bg-image {
+    background-image: url(../images/icon.png);
+    background-repeat: no-repeat;
+    background-size: 100px;
+}
+.btn{
+    display: inline-block;
+    height: 25px;
+    padding:4px 15px;
+    line-height: 15px;
+    text-align: center;
+    border:1px solid $borderColor;
+    @include rounded-corner(3px);
+    color: $black;
+    font-size: 14px;
+    overflow: hidden;
+    .icon{
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        vertical-align: bottom;
+        margin-right: 5px;
+        @extend %bg-image;
+    }
+    &.btn-primary{
+        border-color: $redColor;
+        color: $redColor;
+    }
+    &.btn-block{
+        display: block;
+        height: 40px;
+        padding:10px 15px;
+        line-height: 18px;
+        font-size: 14px;
+        .icon{
+            width: 16px;
+            height: 16px;
+            &.icon01{
+                background-position: 0 0;
+            }
+            &.icon02{
+                background-position: -16px 0;
+            }
+            &.icon03{
+                background-position: -32px 0;
+            }
+            &.icon01{
+                background-position: -48px 0;
+            }
+        }
+    }
+}
+// 布局
+.section100{
+    width: 100%;
+    position: relative;
+    margin-top: 15px;
+    background-color: #fff;
+    border:{
+        top:1px solid #dce0e0;
+        bottom:1px solid #dce0e0;
+    }
+    &.first-section{
+        margin-top: 0;
+        border-top: none;
+    }
+    .hd{
+        height: 40px;
+        line-height: 40px;
+        margin-left: 15px;
+        border-bottom:1px solid $borderColor;
+        overflow: hidden;
+        padding-right: 15px;
+        h2{
+            float: left;
+            font-size: 14px;
+            color: $black;
+            font-weight: bold;
+        }
+        .red-color{
+            font-size: 14px;
+        }
+    }
+    .bd{
+        padding-left: 15px;
+    }
+}
+// 公共头部
+.header{
+    height: 36px;
+    padding:0 15px;
+    color:$black;
+    line-height: 35px;
+    border-bottom: 1px solid $borderColor;
+    background-color: $bgColor;
+    .title{
+        text-align: center;
+        font-size: 16px;
+        line-height: 35px;
+    }
+    .icon{
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-top: 8px;
+        &.aleft:after{
+            position: absolute;
+            top: 3px;
+            left: 2px;
+            content:"";
+            @include arrow(12px,2px,$gray,$bgColor);
+            @include rotate(45deg);
+        }
+        &.service{
+            @extend %bg-image;
+            background-position: 0 -20px;
+        }
+    }
+}
+// 列表
+.list{
+    .list-cell{
+        position: relative;
+        padding:9px 40px 9px 0;
+        border-bottom: 1px solid $borderColor;
+        color: $gray;
+        &:last-child{
+            border-bottom: none;
+        }
+        a.navigate:not(.btn){
+            position: relative;
+            display: block;
+            margin:-9px -40px -9px 0;
+            padding:inherit;
+            color: inherit;
+            overflow: hidden;
+            &:after{
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                content:"";
+                @include arrow(12px,2px,$gray,#fff);
+                @include rotate(-135deg);
+                margin-top: -5px;
+            }
+        }
+    }
+    &.list-text{
+        .list-cell{
+            padding-right: 90px;
+            .right-text{
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                width: 60px;
+                height: 21px;
+                line-height: 21px;
+                text-align: right;
+                margin-top: -11px;
+            }
+            a.navigate:not(.btn){
+                margin-right: -90px;
+                .right-text{
+                    right: 30px;
+                }
+            }
+        }
+    } 
+    &.list-member{
+        .list-cell{
+            padding:7px 15px 6px 0;
+            line-height: 26px;
+            .pic{
+                margin-right: 10px;
+                width: 26px;
+                height: 26px;
+                border-radius: 13px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                float: left;
+            }
+            .name{
+                color: $black;
+            }
+            .right-text{
+                color: $gray;
+                font-size: 11px;
+                float: right;
+            }
+        }
+    } 
+    &.list-opr{
+        .list-cell{
+            position: relative;
+            padding-right: 35px;
+            .text{
+                h3{
+                    color: $black;
+                    font-size: 12px;
+                    line-height: 20px;
+                }
+                p{
+                   color: $gray; 
+                   font-size: 11px;
+                   line-height: 18px;
+                }
+            }
+            .opr-btn{
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                width: 16px;
+                height: 16px;
+                line-height: 14px;
+                border-radius: 8px;
+                background-color: $redColor;
+                font-size: 20px;
+                color: #fff;
+                text-align: center;
+                @include transform(0,-50%);
+                cursor: pointer;
+            }
+        }
+    }      
+}
+// 等分
+.flex{
+    line-height: 30px;
+    text-align: center;
+    @include flex;
+    &.flex-interval{
+        padding:0 5px;
+        .flex-cell{
+            margin:0 5px;
+            background-color: #0097e0;
+            color: #fff;
+        }
+    }
+}
+// 表单
+.input-group{
+    .input-row{
+        border-bottom: 1px solid $borderColor;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 75px;
+        color: $black;
+        .label{
+            position: relative;
+            float: left;
+            margin-left: -75px;
+            color: $gray;
+            &.down-list:after{
+                position: absolute;
+                top: 50%;
+                left: 55px;
+                content:"";
+                @include arrow(0px,4px,$gray,#fff);
+                @include rotate(-45deg);
+                margin-top: -7px;
+            }
+        }
+        .input,textarea{
+            border: none;
+            box-shadow: none;
+            color: inherit;
+            outline: 0;
+            padding-right: 15px;
+            height: 38px;
+            line-height: 38px;
+        }
+        .radio-group{
+            float: left;
+            display: block;
+            width: 100%;
+            label{
+                margin-left: 2px;
+                margin-right: 30px;
+                &:last-child{
+                    margin-right: 0;
+                }
+                .radio{
+                    margin-right: 5px;
+                }
+            }
+        }
+        &:last-child{
+            border-bottom: none;
+        }
+    }
+}
+// 底部
+.footer-fix{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    z-index: 111;
+    &.agreement{
+        text-align: center;
+        line-height: 40px;
+        background-color: $redColor;
+        color: #fff;
+        font-size: 16px;
+    }
+}
+.footer-fix~.main{
+    padding-bottom: 50px;
+}
+
+
+
