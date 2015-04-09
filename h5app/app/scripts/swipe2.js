@@ -16,7 +16,7 @@ $(function(){
 	var imgHeight = img.height();
 
 
-	$(img).on('touchstart',function(e){
+	$(document).on('touchstart',function(e){
 
 		// e.preventDefault();
 		var touchs = e.changedTouches[0];
@@ -24,7 +24,9 @@ $(function(){
 
 	}).on('touchmove',function(e){
 
-		e.preventDefault();
+
+
+		
 		var touchs = e.changedTouches[0];
 		moveDistanceY = touchs.pageY - startPostion;
 
@@ -32,7 +34,15 @@ $(function(){
 
 		console.log(img, moveDistanceY, imgHeight);
 
-		imgHeight = imgHeight + moveDistanceY;
+		
+
+
+		if(imgHeight>200 || (document.body.scrollTop == 0 && moveDistanceY>0 )){
+			e.preventDefault();
+			imgHeight = imgHeight + moveDistanceY;
+			img.height(imgHeight);
+		}
+
 
 		img.height(imgHeight);
 
