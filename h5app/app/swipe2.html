@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>滑屏效果2</title>
+	<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	img{
+		display: block;
+		border: none;
+	}
+	.wrap .topPic{
+		display: block;
+		width: 100%;
+		background-size: cover;
+		background-position: center center;	
+		-moz-transition:all 0.5s;
+		-webkit-transition:all 0.5s;
+		-o-transition:all 0.5s;
+		transition:all .5s;	
+	}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<a href="#" class="topPic" style="background-image:url('images/bigPic.jpg')"></a>
+		<div class="text">
+			测试页面滑动的；<br><br><br><br><br><br><br><br><br><br><br>测试测试
+			测试页面滑动的；<br><br><br><br><br><br><br><br><br><br><br>测试测试
+			测试页面滑动的；<br><br><br><br><br><br><br><br><br><br><br>测试测试
+		</div>
+	</div>
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="../bower_components/pjax/src/pjax.js"></script>
+<script src="../bower_components/zeptojs/src/zepto.js"></script>
+<script src="../bower_components/zeptojs/src/event.js"></script>
+<script src="../bower_components/zeptojs/src/touch.js"></script>
+<script src="../bower_components/zeptojs/src/fx.js"></script>
+<script src="../bower_components/swipejs/swipe.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js scripts/swipe2.js -->
+<script src="scripts/swipe2.js"></script>
+<!-- endbuild -->
+</body>
+</html>
