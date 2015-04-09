@@ -18,13 +18,13 @@ $(function(){
 			$(this).height(winH);
 		}
 	});
-	$(".wrap .topPic").on("swipeUp",function(event){
+	$(".wrap .topPic").on("swipeUp",function(){
 			$(this).height(winW*0.63);
 	});
 	$(".wrap .topPic").on("swipeDown",function(){
 		$(this).height(winH);
 	});
-	document.addEventListener('touchmove', function () {
+	document.addEventListener('touchmove', function (event) {
 				event.preventDefault();
 			}, false);
 	
