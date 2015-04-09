@@ -6,6 +6,58 @@
 // })(Zepto);
 
 $(function(){
+
+	console.log("--- start");
+
+	var startPostion = 0, moveDistanceY;
+	var img = $(".wrap .topPic");
+	var imgHeight = img.height();
+
+
+	$('body').on('touchstart',function(e){
+
+		// e.preventDefault();
+		var touchs = e.changedTouches[0];
+		startPostion = touchs.pageY;
+
+	}).on('touchmove',function(e){
+
+		e.preventDefault();
+		var touchs = e.changedTouches[0];
+		moveDistanceY = touchs.pageY - startPostion;
+
+		// move(-moveDistanceY);
+
+		console.log(img, moveDistanceY, imgHeight);
+
+		imgHeight = imgHeight + moveDistanceY;
+
+		img.height(imgHeight);
+
+
+
+		startPostion = touchs.pageY;
+
+	});
+
+	/*
+	$(document).on("swipeUp",function(){
+		
+		console.log("---swipeUp");
+	}).on('touchmove',function(e){
+
+		console.log("---touchmove");
+		e.preventDefault();
+		// var touchs = e.changedTouches[0];
+		// moveDistanceY = touchs.pageY - startPostion;
+		// move(-moveDistanceY);
+		// startPostion = touchs.pageY;
+
+	});
+	*/
+
+
+	/*
 	var winH = $(window).height();
 	var winW = $(window).width();
 
@@ -27,5 +79,7 @@ $(function(){
 	document.addEventListener('touchmove', function (event) {
 				event.preventDefault();
 			}, false);
+
+	*/
 	
 });
