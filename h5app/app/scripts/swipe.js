@@ -1,154 +1,166 @@
 /* jshint node:true */
 'use strict';
 
-/*global $:false */
-
-;(function($, undefined){
-
+/*global $:false,Zepto:false */
+;(function($,undefined){
 	$.fn.fullSlide = function(options){
-
+		
 		options = $.extend({
-			slider: '.slider-li',
+			slide: '.page',
+			currentIndex: 0,
 			callback: function(){}
 		},options);
-
+		
 		var wrap = $(this),
-			currentHeight = $(window).height(),
-			currentIndex = 0,
-			items = wrap.find(options.slider);
-			console.log(wrap);
+			winH = $(window).height(),
+			currentIndex = options.currentIndex,
+			items = wrap.find(options.slide),
+			moving = false;
 
 		var init = function(){
-			wrap.height(currentHeight);
-
-			items.css({
-				"transform":"translateY("+(-currentHeight)+"px)",
-				"webkitTransform":"translateY("+(-currentHeight)+"px)"
-			}).get(0).style.transform = "translateY(0px)";
-
-			var startPosition = 0,
+			wrap.height(winH);
+			var prevIndex = currentIndex-1<0 ? items.length-1 : currentIndex-1;
+			var nextIndex = currentIndex+1>=items.length ? 0 : currentIndex+1;
+			var startPostion = 0, 
 				moveDistanceY;
 
-			$("body").on('touchstart',function(e){
+			setPos(currentIndex,prevIndex,nextIndex);
 
-				var touch = e.targetTouches[0];
+			//事件
+			$('body').on('touchstart',function(e){
 
-				startPosition = touch.pageY;
+				e.preventDefault();
+				var touchs = e.changedTouches[0];
+				startPostion = touchs.pageY;
 
 			}).on('touchmove',function(e){
+
 				e.preventDefault();
-
-				var touch = e.targetTouches[0];
-
-				moveDistanceY = touch.pageY - startPosition;
-
+				var touchs = e.changedTouches[0];
+				moveDistanceY = touchs.pageY - startPostion;
 				move(-moveDistanceY);
-
-				startPosition = touch.pageY;
+				startPostion = touchs.pageY;
 
 			}).on('touchend',function(){
-
-				var currentTop = parseFloat(items.get(currentIndex).scrollTop);
-				console.log(currentTop);
+				var currentTop = $(items.get(currentIndex)).data('top');
 				var moveDistance = 0,
-					showIndex = 0,
-					hideIndex = 0;
+			          showIndex = 0,
+			          hideIndex = 0;
 
-				if(moveDistanceY<0){
+			    if(moveDistanceY<0){
 					showIndex = currentIndex+1;
 					hideIndex = currentIndex;
-					moveDistance = currentHeight+currentTop;
+					moveDistance = winH+currentTop;
 				}else{
 					showIndex = currentIndex;
 					hideIndex = currentIndex+1;
 					moveDistance = currentTop;
 				}
-				if(showIndex >= items.length) showIndex = 0;
-				if(hideIndex >= items.length) hideIndex = 0;
+			    if(showIndex >= items.length){
+			    	showIndex = 0;
+			    }
+			    if(hideIndex >= items.length){
+			    	hideIndex = 0;
+			    }
 
-				// 4 => 1
-				move(moveDistance, 300, function(){
-					options.callback(showIndex, hideIndex, items.get(showIndex), items.get(hideIndex));
-				});
+		        // 4 => 1
+		        move(moveDistance, 300, function(){
+		        	options.callback(showIndex, hideIndex, items.get(showIndex), items.get(hideIndex));
+		        });
+		        
 			});
+
+			//移动
+			var move = function(distance, duration, callback){
+				duration = duration || 0;
+				var easing = duration > 0 ? 'ease-in-out' : 'linear';
+
+				for(var i = 0 ; i < items.length ; i++){
+			        var top = $(items.get(i)).data('top');
+			        if( top<=0 && top>-winH){
+			          currentIndex = i;
+			          break;
+			        }
+			    }
+
+			    var nextIndex = (currentIndex + 1)%items.length,
+        			prevIndex = currentIndex-1<0 ? items.length-1 : currentIndex-1;
+
+				var current = items.get(currentIndex),
+					prev = items.get(prevIndex),
+					next = items.get(nextIndex);
+
+				var currentTop = $(current).data('top');
+
+				if(moving){
+			        return;
+			    }
+
+			    moving = true;
+
+				$(current).animate({
+					'-webkit-transform': 'translateY('+(currentTop-distance)+'px)',
+					transform: 'translateY('+(currentTop-distance)+'px)'
+				},duration,easing,function(){
+					setTop(current,currentTop-distance);
+					moving = false;
+					if(typeof callback === 'function'){
+						callback();
+					}
+				});
+				$(prev).animate({
+					'-webkit-transform': 'translateY('+(currentTop-distance-winH)+'px)',
+					transform: 'translateY('+(currentTop-distance)+'px)'
+				},duration,easing,function(){
+					setTop(prev, currentTop-winH-distance);
+				});
+				$(next).animate({
+					'-webkit-transform': 'translateY('+(currentTop-distance+winH)+'px)',
+					transform: 'translateY('+(currentTop-distance)+'px)'
+				},duration,easing,function(){
+					setTop(next, currentTop+winH-distance);
+				});
+
+			};
 
 		};
 
-		var move = function(distance, duration, callback){
-
-			duration = duration || 0;
-
-			var easing = duration > 0 ? 'ease-in-out' : 'linear';
-
-			currentIndex = 0;
-			for(var i = 0 ; i < items.length ; i++){
-				var top = parseFloat(items.get(i).scrollTop);
-				console.log(top);
-				if( top<=0 && top>-currentHeight){
-					currentIndex = i;
-					break;
+		var setTop = function(node,pos){
+			$(node).css({
+				'-webkit-transform': 'translateY('+pos+')',
+				'transform': 'translateY('+pos+')'
+			});
+			$(node).data('top', pos);
+      		return $(node);
+		};
+		var setPos = function(currentIndex,prevIndex,nextIndex){
+	    	//初始化位置
+			for(var i=0; i<items.length; i++){
+				if(i === nextIndex){
+					items.get(i).style.transform = 'translateY('+winH+'px)';
+					setTop(items.get(i),winH);
+				}else if(i === currentIndex){
+					items.get(i).style.transform = 'translateY(0px)';
+					setTop(items.get(i),0);
+				}else{
+					items.get(i).style.transform = 'translateY('+-winH+'px)';
+					setTop(items.get(i),-winH);
 				}
 			}
-
-			var nextIndex = (currentIndex + 1)%items.length,
-				prevIndex = currentIndex - 1;
-
-			prevIndex = prevIndex < 0 ? items.length + prevIndex : prevIndex;
-
-			var current = items.get(currentIndex),
-				next = items.get(nextIndex),
-				prev = items.get(prevIndex);
-
-			var currentTop = parseFloat(current.scrollTop);
-
-			// next.style.top = (currentTop+currentHeight)+'px';
-			// prev.style.top = (currentTop-currentHeight)+'px';
-			next.style.transform = "translateY("+(currentTop+currentHeight)+"px)";
-			prev.style.transform = "translateY("+(currentTop-currentHeight)+"px)";
-
-			// $(next).animate({
-			// 	top: (currentTop+currentHeight-distance)+'px',
-			// }, duration, easing);
-
-
-			// $(prev).animate({
-			// 	top: (currentTop-currentHeight-distance)+'px',
-			// }, duration, easing);
-
-			// $(current).animate({
-			// 	top: (currentTop-distance)+'px',
-			// }, duration, easing, function(){
-			// 	if(typeof callback == 'function')
-			// 		callback();
-			// });
-			$(next).animate({
-				transform: "translateY("+(currentTop+currentHeight-distance)+"px)"
-			}, duration, easing);
-			$(prev).animate({
-				transform: "translateY("+(currentTop-currentHeight-distance)+"px)"
-			}, duration, easing);
-
-			$(current).animate({
-				transform: "translateY("+(currentTop-distance)+"px)"
-			}, duration, easing, function(){
-				if(typeof callback == 'function')
-					callback();
-			});
 		};
 
 		init();
-	}
-
-})(Zepto)
-
+		
+	};
+})(Zepto);
 
 $(function(){
 
-	$('.swipt-wrap').fullSlide({
+	$('.wrap').fullSlide({
 		callback: function(showIndex, hideIndex,currentItem,hideItem){
 			// console.log(showIndex, hideIndex,currentItem,hideItem);
-			$(hideItem).removeClass("animation");
-			$(currentItem).addClass("animation");
+			$(hideItem).removeClass('animation');
+			$(currentItem).addClass('animation');
 		}
 	});
 	

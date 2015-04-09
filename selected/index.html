@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>selected</title>
+	<script src='../jquery-1.11.2.min.js'></script>
+	<style>
+		*{padding: 0;margin: 0;}
+		body{padding: 20px;}
+		.box{border:1px solid #0097e0;padding: 20px;}
+		select{margin-bottom: 20px;}
+		ul li{cursor: pointer;}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<select name="garden" id="">
+		<option value="1">1</option>
+		<option value="2" selected="selected">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+	</select>
+	<ul>
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+		<li>4</li>
+	</ul>
+	</div>
+<script>
+	$("select").change(function(){
+		console.log($("select option:selected").attr("value"));
+	});
+	$("ul li").each(function(){
+		$(this).click(function(){
+			var val = $(this).text();
+			$("select option").each(function(){
+				var txt = $(this).text();
+				if(txt == val){
+					$(this).prop("selected",true);
+				}
+			})
+		});
+	})
+</script>
+</body>
+</html>
