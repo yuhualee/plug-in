@@ -7,12 +7,14 @@
 
 $(function(){
 
-	console.log("--- start");
+	// console.log("--- start");
 
 	var startPostion = 0, moveDistanceY;
 	var img = $(".wrap .topPic");
 	var biggerH = $(window).height();
 	var smallerH = $(window).width()*0.63;
+
+	img.height(biggerH);
 	var imgHeight = img.height();
 
 
@@ -32,10 +34,10 @@ $(function(){
 
 		// move(-moveDistanceY);
 
-		console.log(img, moveDistanceY, imgHeight);
+		// console.log(img, moveDistanceY, imgHeight);
 
 		
-
+		console.log(document.body.scrollTop);
 
 		if(imgHeight>200 || (document.body.scrollTop == 0 && moveDistanceY>0 )){
 			e.preventDefault();

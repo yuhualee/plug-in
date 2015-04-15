@@ -16,13 +16,13 @@
 		display: block;
 		border: none;
 	}
+	.wrap .bd{
+		width: 100%;
+		overflow: hidden;
+	}
 	.wrap .topPic{
 		display: block;
 		width: 100%;
-		/*-moz-transition:height .5s;
-		-webkit-transition:height .5s;
-		-o-transition:height .5s;
-		transition:height .5s;*/
 		text-decoration: none;
 		position: relative;
 		overflow: hidden;
@@ -33,15 +33,12 @@
 		width: 80%;
 		position: absolute;
 		left: 10%;
-		margin-left: -10px;
 		bottom: 15%;
 		opacity: 1;
 		-moz-transition:opacity .5s;
 		-webkit-transition:opacity .5s;
 		-o-transition:opacity .5s;
 		transition:opacity .5s;
-		background-color: rgba(0,0,0,0.2);
-		padding: 10px;
 	}
 	.wrap .topPic .text p{
 		font-size: 14px;
@@ -52,7 +49,7 @@
 		line-height: 30px;
 		font-weight: bold;
 	}
-	.wrap .topPic img{height: 100%;}
+	.wrap .topPic img{height: 100%;width: 100%;}
 	</style>
 </head>
 <body>
@@ -64,35 +61,13 @@
 				<p>大理，不外乎“风花”，不外乎“雪月”，即所谓“上关风，上关花，苍山雪，洱海....”</p>
 			</div>
 		</a>
-		<div class="text">
+		<div class="bd">
 			<h2>思路</h2>
-<pre>
-	w = 窗口宽度;
-	h = 窗口高度;
-	
-	设置图片默认高度 ＝ w*0.63;
-
-	鼠标按下时{
-		y = 当前的y坐标;
-	}鼠标移动时{
-		y1 = 当前的坐标;
-		d1 = 鼠标移动的距离y1-y;
-
-		图片高度 ＝ 原来的高度 + d1;
-
-		重新设置图片的高度；
-	
-		文字的透明度，当图片全屏时，透明度为1，最小时，透明度为0；
-
-		（图片能不能判断一下宽高比例，占满整个块，不使用背景图片，在手机上会闪);
-
-	}鼠标抬起时{
-		如果向上滑动，图片变成最小;  
-		如果向下滑动，图片变成最大;
-		（因手指抬起，动画平滑完成效果）
-	}
-
-</pre>
+			<ul>
+				<li>1. 文字透明有问题</li>
+				<li>2. 点击切换效果，怎么才能判断是点击还是移动</li>
+				<li>3. 这个需求不重要，就是平滑移动。</li>
+			</ul>
 
 			测试页面滑动的；<br><br><br><br><br><br><br><br><br><br><br>测试测试
 			测试页面滑动的；<br><br><br><br><br><br><br><br><br><br><br>测试测试
@@ -115,7 +90,7 @@
 <!-- endbower -->
 <!-- endbuild -->
 
-<!-- build:js scripts/swipe2.js -->
+<!-- build:js scripts/swipe3.js -->
 <script src="scripts/swipe3.js"></script>
 <!-- endbuild -->
 </body>
