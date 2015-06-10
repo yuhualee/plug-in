@@ -1,7 +1,7 @@
 /* jshint node:true */
 'use strict';
 
-/*global $:false,Zepto:false */
+/*global $:false*/
 // ;(function($,undefined){
 // })(Zepto);
 
@@ -10,9 +10,8 @@ $(function(){
 	// console.log("--- start");
 
 	var startPostion = 0, moveDistanceY;
-	var img = $(".wrap .topPic");
+	var img = $('.wrap .topPic');
 	var biggerH = $(window).height();
-	var smallerH = $(window).width()*0.63;
 
 	img.height(biggerH);
 	var imgHeight = img.height();
@@ -39,7 +38,7 @@ $(function(){
 		
 		console.log(document.body.scrollTop);
 
-		if(imgHeight>200 || (document.body.scrollTop == 0 && moveDistanceY>0 )){
+		if(imgHeight>200 || (document.body.scrollTop === 0 && moveDistanceY>0 )){
 			e.preventDefault();
 			imgHeight = imgHeight + moveDistanceY;
 			img.height(imgHeight);
