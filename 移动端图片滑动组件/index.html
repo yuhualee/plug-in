@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=640, user-scalable=no">
+	<meta name="apple-touch-fullscreen" content="YES">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>移动端</title>
+	<style>
+	*{padding: 0;margin: 0;}
+	ul{list-style-type: none;}
+	li{list-style-type: none;}
+	img{display: block;}
+	html,body{width: 100%;height: 100%;}
+	body{background-color: #333;}
+	.canvas{width: 100%;height: 100%;overflow: hidden;}
+	.canvas ul{height: 100%;}
+	.canvas ul li{
+		height: 100%;
+		width: 100%;
+		display: -webkit-box;
+		-webkit-box-pack: center;
+		-webkit-box-align: center;
+		position: absolute;
+		-webkit-transition: all .2s ease-out;
+	}
+	.canvas ul li img{
+	}
+	</style>
+</head>
+<body>
+	<section id="canvas" class="canvas">
+		<!-- <ul class="list">
+			<li class="item" style="-webkit-transform:translate3d(-100%,0,0);">
+				<img src="images/pic-01.jpg" alt="">
+			</li>
+			<li class="item" style="-webkit-transform:translate3d(0,0,0);">
+				<img src="images/pic-04.jpg" alt="">
+			</li>
+			<li class="item" style="-webkit-transform:translate3d(100%,0,0);">
+				<img src="images/pic-02.jpg" alt="">
+			</li>
+			<li class="item" style="-webkit-transform:translate3d(200%,0,0);">
+				<img src="images/pic-03.jpg" alt="">
+			</li>
+		</ul> -->
+	</section>
+	<script src="../jquery-1.11.2.min.js"></script>
+	<script>
+		var imglist = [{
+			img: "images/pic-01.jpg",
+			width: 647,
+			height: 865
+		},
+		{
+			img: "images/pic-02.jpg",
+			width: 593,
+			height: 441
+		},
+		{
+			img: "images/pic-03.jpg",
+			width: 667,
+			height: 493
+		},
+		{
+			img: "images/pic-04.jpg",
+			width: 400,
+			height: 775
+		}];
+		function Slider(opts){
+			this.wrap = opts.dom;
+			this.list = opts.list;
+
+			// 构造三部曲
+			this.init();
+			this.renderDom();
+			this.bindDom();
+		}
+		Slider.prototype.init = function(){
+			// 窗口长宽比
+			this.ratio = window.innerHeight/window.innerWidth;
+			// 图片滚动一次距离
+			this.scaleW = window.innerWidth;
+			// 当前图片的索引值
+			this.idx = 0;
+		}
+		Slider.prototype.renderDom = function(){
+			var wrap = this.wrap;
+			var data = this.list;
+			var len = data.length;
+			var scale = this.scaleW;
+
+			this.outer = document.createElement('ul');
+			for(var i = 0; i<len; i++){
+				var li = document.createElement("li");
+				var item = data[i];
+
+				li.style.width = scale + "px";
+				li.style.webkitTransform = 'translate3d('+ i*scale + 'px, 0, 0)';
+
+				if(item){
+					if(item['height']/item['width'] > this.ratio){
+						li.innerHTML = '<img height="' + window.innerHeight + '" src="'+item['img']+'"/>';
+					}else{
+						li.innerHTML = '<img width="' + window.innerWidth + '" src="'+item['img']+'"/>';
+					}
+				}
+				this.outer.appendChild(li);
+			}
+			this.outer.style.width = scale + 'px';
+			wrap.appendChild(this.outer);
+
+		}
+		Slider.prototype.bindDom = function(){
+			var self = this;
+			var scale = self.scaleW;
+			var outer = self.outer;
+			var len = self.list.length;
+
+			var startHandle = function(e){
+				self.startX = e.touches[0].pageX;
+
+				self.offsetX = 0;
+
+				self.startTime = new Date() * 1;
+			};
+			var moveHandle = function(e){
+
+				e.preventDefault();
+
+				self.offsetX = e.touches[0].pageX - self.startX;
+
+				var lis = outer.getElementsByTagName('li');
+
+				var i = self.idx - 1;
+				var m = self.idx + 1;
+
+				for(i; i <= m; i++){
+					if(lis[i]){
+						lis[i].style.webkitTransform = 'translate3d(' + ((i - self.idx) * scale + self.offsetX) + 'px, 0, 0)';
+					}
+				}
+
+			};
+
+			var endHandle = function(e){
+				var boundary = scale/6;
+				var endTime = new Date() * 1;
+				var lis = outer.getElementsByTagName('li');
+				if(endTime - self.startTime > 800){
+					if(self.offsetX >= boundary){
+						// 进入到上一页
+						self.go('-1');
+					}else if(self.offsetX < -boundary){
+						// 进入到下一页
+						self.go('+1');
+					}else{
+						// 留在当页
+						self.go('0');
+					}
+				}else{
+					if(self.offsetX > 50){
+						// 进入到上一页
+						self.go('-1');
+					}else if(self.offsetX < -50){
+						// 进入到上一页
+						self.go('+1');
+					}else{
+						// 留在当页
+						self.go('0');
+					}
+				}				
+			};
+
+			outer.addEventListener('touchstart',startHandle);
+			outer.addEventListener('touchmove',moveHandle);
+			outer.addEventListener('touchend',endHandle);
+		}
+		Slider.prototype.go = function(n){
+			var idx = this.idx;
+			var cidx;
+			var lis = this.outer.getElementsByTagName('li');
+			var len = lis.length;
+			var scale = this.scaleW;
+
+			if(typeof n == 'number'){
+				cidx = idx;
+			}else if(typeof n == 'string'){
+				cidx = idx + n * 1;
+			}
+
+			// 当索引从右边超出
+			if(cidx > len - 1){
+				cidx = len - 1;
+			}else if(cidx < 0){
+				cidx = 0;
+			}
+			this.idx = cidx;
+
+			lis[cidx].style.webkitTransform = 'translate3d(0,0,0)';
+			lis[cidx-1] && (lis[cidx-1].style.webkitTransform = 'translate3d(-' + scale + 'px,0,0)');
+			lis[cidx+1] && (lis[cidx+1].style.webkitTransform = 'translate3d(' + scale + 'px,0,0)');
+
+			if(cidx < len - 1){
+				
+			}	
+			
+		}
+
+		new Slider({
+			'dom': document.getElementById('canvas'),
+			'list': imglist
+		});
+	</script>
+</body>
+</html>
