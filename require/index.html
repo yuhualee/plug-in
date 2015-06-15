@@ -4,14 +4,17 @@
 	<meta charset="UTF-8">
 	<title>require</title>
 	<link rel="stylesheet" href="css/build.css"/>
+	<style>
+	.wraper{
+		width: 200px;
+		height: 200px;
+		background-color: #f90;
+	}
+	</style>
 </head>
 <body>
-	<div class="wrap"></div>
-	<p>p1</p>
-	<p>p2</p>
-	<p>p3</p>
-	<p>p4</p>
-	<p>p5</p>
+	<div class="wraper"></div>
+	
 	<script src="js/require.js" defer async="true" data-main="js/main"></script>  
 	<!-- async : <script> 标签中的 js 文件不会阻塞其他页面内容的下载。 defer延迟脚本的执行 -->
 </body>

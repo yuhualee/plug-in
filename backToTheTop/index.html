@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>手风琴效果</title>
+	<script type="text/javascript" src="script.js"></script>
+	<style>
+	*{
+		padding: 0;
+		margin: 0;
+	}
+	.wrap{
+		height: 2000px;
+	}
+	.gotop,#btn{
+		display: inline-block;
+		position: fixed;
+		right: 30px;
+		top: 60%;
+		background-color: #f90;
+		color: #fff;
+		padding: 10px;
+		text-decoration: none;
+	}
+	#btn{
+		top: 70%;
+		display: none;
+	}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		这里是顶部
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<h3>DOM操作</h3>
+		<ul>
+			<li>document.getElementById:  根据id获取标签元素</li>
+			<li>document.documentElement.scrollTop:  滚动条的数值，可读写</li>
+		</ul>
+		<h3>事件运用</h3>
+		<ul>
+			<li>window.onload:  页面加载完毕后触发</li>
+			<li>onclick: 点击触发</li>
+			<li>window.onscroll: 滚动条滚动时触发</li>
+		</ul>
+		<h3>定时器</h3>
+		<ul>
+			<li>setInterval()</li>
+			<li>clearInterval()</li>
+		</ul>
+	</div>
+	<a class="gotop" href="#">毛链接，回到顶部</a>
+	<a href="javascript:;" id="btn" title="回到顶部">回到顶部</a>
+</body>
+<script>
+</script>
+</html>
