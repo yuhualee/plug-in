@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>固定边栏滚动特效jQuery</title>
+	<style>
+	*{padding: 0;margin: 0;}
+	.wrap{overflow: hidden;width: 1000px;margin: 0 auto;}
+	.main{float: left;width: 70%;background: #f1f1f1;height: 2000px;}
+	.sider{float: right;width: 30%;background-color: #ccc;height: 1500px;border-bottom: 100px solid #0097e0;}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="main">
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			这是中间
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			这是底部
+		</div>
+		<div class="sider j_sider">
+			sider bar
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			这是中间
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			这是底部
+		</div>
+	</div>
+<script src="../jquery-1.11.2.min.js"></script>
+<script>
+	var jWindow = $(window);
+	jWindow.scroll(function(){
+		var scrollH = jWindow.scrollTop();
+		var screenH = jWindow.height();
+		var siderH = $('.j_sider').outerHeight();
+		var siderW = $('.j_sider').outerWidth();
+		var siderL = $('.j_sider').offset().left;
+		console.log(siderL);
+		if(scrollH + screenH > siderH){
+			$('.j_sider').css({
+				'position': 'fixed',
+				'top': -(siderH - screenH) + 'px',
+				'left': siderL + 'px',
+				'width': siderW + 'px'
+			});
+		}else{
+			$('.j_sider').css({
+				'position': 'static',
+			});
+		}
+	});
+	jWindow.resize(function(){
+		$(this).trigger('scroll');
+	});
+</script>
+</body>
+</html>

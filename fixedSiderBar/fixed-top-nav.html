@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>固定悬浮导航</title>
+	<style>
+	*{padding: 0;margin: 0;}
+	.wrap{overflow: hidden;width: 1000px;margin: 0 auto;padding-top: 200px;}
+	.item{width: 100%;height: 300px;position: relative;}
+	.placeholder{background-color: #f00;height: 1px;overflow: hidden;width: 100%;position: absolute;top: -40px;z-index: -1;}
+	.nav{height: 40px;background-color: #f1f1f1;border-bottom: 1px solid #ccc;}
+	.nav a{color: #666;float: left;width: 250px;text-align: center;height: 40px;line-height: 40px;text-decoration: none;}
+	.nav a.active{background-color: #0097e0;color: #fff;}
+	.nav-shadow{height: 41px;width: 100%;display: none;}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="nav">
+			<a href="#item1" class="active">item1</a>
+			<a href="#item2">item2</a>
+			<a href="#item3">item3</a>
+			<a href="#item4">item4</a>
+		</div>
+		<div class="nav-shadow">ddd</div>
+		<div class="item" style="height:1000px;">
+			<div class="placeholder" id="item1"></div>
+			item1
+		</div>
+		<div class="item" style="height:200px;">
+			<div class="placeholder" id="item2"></div>
+			item2
+		</div>
+		<div class="item"  style="height:700px;">
+			<div class="placeholder" id="item3"></div>
+			item3
+		</div>
+		<div class="item" style="height:500px;">
+			<div class="placeholder" id="item4"></div>
+			item4
+		</div>
+	</div>
+<script src="../jquery-1.11.2.min.js"></script>
+<script>
+
+	var navTop = $('.nav').offset().top;
+	var item1T = $('#item1').offset().top;
+	var item2T = $('#item2').offset().top;
+	var item3T = $('#item3').offset().top;
+	var item4T = $('#item4').offset().top;
+
+	$(window).scroll(function(){
+		var winT = $(window).scrollTop();
+		if(winT >= navTop){
+			$('.nav').css({'position':'fixed','top':0,'z-index':'11111'});
+			$('.nav-shadow').css("display","block");
+		}else if(winT < navTop){
+			$('.nav').css({'position':'static'});
+			$('.nav-shadow').css("display","none");
+		}
+
+		if(winT >=item1T && winT < item2T){
+			$(".nav a:nth-of-type(1)").addClass('active').siblings().removeClass('active');
+		}else if(winT >=item2T && winT < item3T){
+			$(".nav a:nth-of-type(2)").addClass('active').siblings().removeClass('active');
+		}else if(winT >=item3T && winT < item4T){
+			$(".nav a:nth-of-type(3)").addClass('active').siblings().removeClass('active');
+		}else if(winT >=item4T){
+			$(".nav a:nth-of-type(4)").addClass('active').siblings().removeClass('active');
+		}
+
+	});
+
+	$('.nav a').each(function(){
+		$(this).click(function(){
+			$(this).addClass('active').siblings().removeClass('active');
+		});
+	});
+
+</script>
+</body>
+</html>

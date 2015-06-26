@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>固定边栏滚动特效javascript</title>
+	<style>
+	*{padding: 0;margin: 0;}
+	.wrap{overflow: hidden;width: 1000px;margin: 0 auto;}
+	.main{float: left;width: 70%;background: #f1f1f1;height: 2000px;}
+	.sider{float: right;width: 30%;background-color: #ccc;height: 1500px;border-bottom: 100px solid #0097e0;}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="main">
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			这是中间
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			这是底部
+		</div>
+		<div class="sider" id="j_sider">
+			sider bar
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			这是中间
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			这是底部
+		</div>
+	</div>
+<script>
+	var $ = function(id){
+		return document.getElementById(id);
+	}
+
+	var addEvent = function(obj,event,fn){
+		if(obj.addEventListener){
+			obj.addEventListener(event,fn,false)
+		}else if(obj.attachEvent){
+			obj.attachEvent('on'+ event,fn);
+		}
+	}
+
+	var silder = $('j_sider');
+
+	var scrollEvent = function(){
+		var siderH = silder.offsetHeight;
+		var siderW = silder.offsetWidth;
+		var siderL = silder.offsetLeft;
+
+		var screenH = document.documentElement.clientHeight || document.body.clientHeight;
+		var scrollH = document.documentElement.scrollTop || document.body.scrollTop;
+
+		if(scrollH + screenH > siderH){
+			silder.style.cssText = 'position:fixed;left:'+ siderL + 'px;top:'+ (-(siderH - screenH)) + 'px;width:' + siderW + 'px';
+		}else{
+			silder.style.cssText = 'position: static';
+		}
+	}
+
+	addEvent(window,'scroll',function(){
+		scrollEvent();
+	});
+	addEvent(window,'resize',function(){
+		scrollEvent();
+	});
+
+</script>
+</body>
+</html>
