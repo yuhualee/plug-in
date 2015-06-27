@@ -31,11 +31,11 @@
 			<div class="placeholder" id="item2"></div>
 			item2
 		</div>
-		<div class="item"  style="height:700px;">
+		<div class="item"  style="height:500px;">
 			<div class="placeholder" id="item3"></div>
 			item3
 		</div>
-		<div class="item" style="height:500px;">
+		<div class="item" style="height:300px;">
 			<div class="placeholder" id="item4"></div>
 			item4
 		</div>
@@ -43,6 +43,94 @@
 <script src="../jquery-1.11.2.min.js"></script>
 <script>
 
+;(function(){
+
+	var list = [];
+
+	var main = function(){
+
+		$('.nav a').each(function(index){
+			var that = $(this);
+
+			var id = that.attr('href');
+
+			if(id && $(id).length){
+
+				list.push({
+					top: $(id).offset().top,
+					node: that
+				});
+			}
+
+		});
+
+		list.sort(function(a, b){    
+			return a.top > b.top;
+		});
+
+		$(window).scroll(onscroll);
+
+		onscroll();
+
+		$('.nav a').click(function(){
+			var that = $(this);
+			setTimeout(function(){
+				active(that, true);
+			}, 15);
+		});
+	}
+
+	var activeHandle;
+
+	var active = function(node, now){
+		if(!now){
+			activeHandle = setTimeout(function(){
+				active(node, true);
+			}, 50);
+			return ;
+		}else if(activeHandle){
+			clearTimeout(activeHandle);
+		}
+
+		$(node).addClass('active').siblings().removeClass('active');
+	}
+	
+	var navTop = $('.nav').offset().top;
+
+	var onscroll = function(){
+
+		var winT = $(window).scrollTop();
+
+		if(winT >= navTop){
+			$('.nav').css({'position':'fixed','top':0,'z-index':'11111'});
+			$('.nav-shadow').css("display","block");
+		}else{
+			$('.nav').css({'position':'static'});
+			$('.nav-shadow').css("display","none");
+		}
+
+		var index = 0;
+		for(var i in list){
+
+			var nexti = parseInt(i)+1;
+
+			if(winT > list[i].top && 
+				(typeof list[nexti] == 'undefined' 
+					|| winT < list[nexti].top) ){
+
+				active(list[i].node);
+
+				break;
+			}
+		}
+
+	};
+
+	main();
+
+})();
+
+/*
 	var navTop = $('.nav').offset().top;
 	var item1T = $('#item1').offset().top;
 	var item2T = $('#item2').offset().top;
@@ -50,6 +138,8 @@
 	var item4T = $('#item4').offset().top;
 
 	$(window).scroll(function(){
+		
+
 		var winT = $(window).scrollTop();
 		if(winT >= navTop){
 			$('.nav').css({'position':'fixed','top':0,'z-index':'11111'});
@@ -69,13 +159,33 @@
 			$(".nav a:nth-of-type(4)").addClass('active').siblings().removeClass('active');
 		}
 
-	});
+		// if(winT >=item1T && winT < item2T){
+		// 	$(".nav a:nth-of-type(1)").addClass('active').siblings().removeClass('active');
+		// }else if(winT >=item2T && winT < item3T){
+		// 	$(".nav a:nth-of-type(2)").addClass('active').siblings().removeClass('active');
+		// }else if(winT >=item3T && winT < item4T){
+		// 	// $(".nav a:nth-of-type(3)").addClass('active').siblings().removeClass('active');
+		// }else if(winT >=item4T){
+		// 	$(".nav a:nth-of-type(4)").addClass('active').siblings().removeClass('active');
+		// }
 
-	$('.nav a').each(function(){
-		$(this).click(function(){
-			$(this).addClass('active').siblings().removeClass('active');
-		});
 	});
+*/
+/*
+	$('.nav a').click(function(){
+		var that = $(this);
+		setTimeout(function(){
+			that.addClass('active').siblings().removeClass('active');
+		}, 100);
+	});
+*/
+	// $('.nav a').each(function(){
+	// 	$(this).click(function(){
+	// 		// setTimeout(function(){
+	// 			$(this).addClass('active').siblings().removeClass('active');
+	// 		// });
+	// 	}, 1000);
+	// });
 
 </script>
 </body>
