@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>top slide</title>
+	<style>
+	html,body,h1,h2,h3,h4,h5,h6,ul,ol,form,dl,dt,dd,span,p,button,input,th,td,em{
+	    margin:0px;
+	    padding:0px; 
+	}
+	body{
+	    font-family: "Helvetica Neue", Helvetica, STHeiTi,Arial, sans-serif; 
+	    color: $black;
+	    background-color: #fff;
+	    font-size: 12px;
+	    line-height: 1.5;
+	     -webkit-overflow-scrolling: touch; 
+	}
+	article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display: block;}
+	audio,canvas,video{
+	    display: inline-block;
+	    vertical-align: baseline;
+	}
+	a{
+	    background: transparent; 
+	    text-decoration: none; 
+	    -webkit-tap-highlight-color: transparent; 
+	    color: nth($linkColor,1);
+	    &:active {
+	        outline: 0; 
+	        color: nth($linkColor,2);
+	    }
+	}
+	b,strong { font-weight: bold;}
+	img {
+	    border: 0; 
+	    vertical-align: middle;
+	}
+	button,input,optgroup,select,textarea {
+	    color: inherit; 
+	    font: inherit; 
+	}
+	table {
+	    border-collapse: collapse;
+	    border-spacing: 0;
+	    td,th {
+	        padding: 0;
+	    }
+	}
+	ul,li{
+	    list-style: none;
+	}
+	*,*:after,*:before { 
+	    -webkit-box-sizing: border-box; 
+	       -moz-box-sizing: border-box; 
+	            box-sizing: border-box; 
+	}
+	header{height: 40px;line-height: 40px;border-bottom: 1px solid #ccc;text-align: center;color: #333;background-color: #f1f1f1;font-size: 16px;font-weight: bold;}
+	.filter-box{height: 41px;width: 100%;}
+	.filter-mask{position: fixed;left: 0;top: 0;bottom:0;width: 100%;background-color: rgba(0,0,0,0.4);z-index: 998;display: none;}
+	.filter-box .filter-nav{position: relative;z-index: 999;width: 100%;height: 40px;background-color: #fff;line-height: 40px;overflow: hidden;border-bottom: 1px solid #ccc;}
+	.filter-box .filter-nav .li{float: left;display: inline;width: 25%;text-align: center;}
+	.filter-bd{position: relative;z-index: 999;background-color: #f1f1f1;width: 100%;height: 250px;border-bottom: 1px solid #ccc;overflow:hidden;display: none;}
+	.filter-bd .list{padding: 0 10px;position: absolute;width: 100%;display: none;}
+	.filter-bd .list.current{display: block;}
+	.filter-bd .list li{height: 40px;line-height: 40px;border-bottom: 1px solid #ddd;color: #666;}
+	.filter-fixed{position: fixed;top: 0;left: 0;right: 0;}
+	.filter{height: 40px;width: 100%;}
+	</style>
+</head>
+<body>
+	<header>这是title</header>
+	<section class="wrap">
+		<div class="filter">
+			<div class="filter-box">
+				<div class="filter-mask"></div>
+				<nav class="filter-nav">
+					<span class="li" data-role=".classify">全部分类</span>
+					<span class="li" data-role=".place">全部目的地</span>
+					<span class="li" data-role=".time">不限天数</span>
+					<span class="li" data-role=".sale">销量</span>
+				</nav>
+				<div class="filter-bd">
+					<ul class="classify list" data-top="0">
+						<li>全国</li>
+						<li>新疆</li>
+						<li>北京</li>
+						<li>陕西</li>
+						<li>广西</li>
+						<li>新疆</li>
+						<li>北京</li>
+						<li>陕西</li>
+						<li>广西</li>
+						<li>新疆</li>
+						<li>北京</li>
+						<li>陕西</li>
+						<li>广西</li>
+						<li>新疆</li>
+						<li>北京</li>
+						<li>陕西</li>
+						<li>广西</li>
+					</ul>
+					<ul class="place list" data-top="0">
+						<li>全部分类</li>
+						<li>私游</li>
+						<li>精品小包团</li>
+						<li>组团</li>
+						<li>周边活动</li>
+					</ul>
+					<ul class="time list" data-top="0">
+						<li>全部</li>
+						<li>今天</li>
+						<li>最近一周</li>
+						<li>最近一个月</li>
+						<li>最近一年</li>
+					</ul>
+					<ul class="sale list" data-top="0">
+						<li>销量由高到低</li>
+						<li>价格由高到低</li>
+						<li>价格由低到高</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<article class="content">
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+			<p>这是内容部分！</p>
+			<br><br><br><br><br><br>
+		</article>
+	</section>
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="../bower_components/pjax/src/pjax.js"></script>
+<script src="../bower_components/zeptojs/src/zepto.js"></script>
+<script src="../bower_components/zeptojs/src/event.js"></script>
+<script src="../bower_components/zeptojs/src/touch.js"></script>
+<script src="../bower_components/zeptojs/src/fx.js"></script>
+<script src="../bower_components/swipejs/swipe.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+<script>
+	var filter = $('.filter-box');
+	var filterTop = filter.offset().top;
+	var winH = $(window).height();
+
+	var main = function(){
+		var maskH = winH - filterTop + 'px';
+		var startPostion = 0, 
+			moveDistanceY;
+		var top = 0, moveD = 0;
+
+		$('.filter-nav .li').each(function(){
+			var that = $(this);
+			var role = that.data('role');
+			// console.log($(role));
+			that.on('tap',function(){
+				$('body').css({'overflow':'hidden'});
+				$('.filter-mask').show();
+				$('.filter-bd').show();
+				$(role).addClass('current').siblings().removeClass('current');
+			});
+		});
+		$('.filter-mask').tap(function(){
+			$('body').css({'overflow':'visible'});
+			$(this).hide();
+			$('.filter-bd').hide();
+			$('.filter-bd .list').removeClass('current');
+		});
+
+		$(window).scroll(onscroll);
+		onscroll();
+
+		$('.filter-bd').on('touchstart',function(e){
+			e.preventDefault();
+			var touchs = e.changedTouches[0];
+			startPostion = touchs.pageY;
+			// console.log(startPostion);
+
+		}).on('touchmove',function(e){
+			e.preventDefault();
+			var touchs = e.changedTouches[0];
+			moveDistanceY = touchs.pageY - startPostion;
+
+			top = parseInt($('.filter-bd .current').data('top'));
+			moveD = top + moveDistanceY;
+			console.log(moveD);
+
+			move(moveD);
+			startPostion = touchs.pageY;
+		}).on('touchend',function(){
+			top = parseInt($('.filter-bd .current').data('top'));
+			maxD = $('.filter-bd .current').height() - $('.filter-bd').height();
+			if(top > 0){
+			moveD = 0;
+			}else if(maxD > 0 && top < -maxD){
+				moveD = -maxD;
+			}else if(maxD < 0){
+				moveD = 0;
+			}
+			move(moveD);
+		});
+	};
+
+	var move = function(distance){
+		
+		$('.filter-bd .current').animate({
+			'-webkit-transform': 'translateY('+ distance +'px)',
+					transform: 'translateY('+ distance +'px)'
+				},10);
+		$('.filter-bd .current').data('top',distance);
+	}
+	
+	var onscroll = function(){
+		var winTop = $(window).scrollTop();
+		if(winTop >= filterTop){
+			filter.addClass('filter-fixed');
+		}else{
+			filter.removeClass('filter-fixed');
+		}
+		filterTop = filter.offset().top;
+		winH = $(window).height();
+	};
+
+
+	main();
+</script>
+</body>
+</html>
