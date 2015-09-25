@@ -1,0 +1,45 @@
+html, body, h1, h2, h3, h4, h5, h6, ul, ol, form, dl, dt, dd, span, p, button, input, th, td, em, figure {
+  margin: 0px;
+  padding: 0px; }
+
+body{
+	font-family: 'Helvetica Neue',Helvetica,STHeiTi,Arial,sans-serif;
+	color: #000;
+	background-color: #000;
+	line-height: 1.5;
+	font-size: 14px;
+	-webkit-overflow-scrolling: touch;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	text-size-adjust: none;
+}
+img {
+  border: 0;
+  vertical-align: middle; }
+
+ul, li {
+  list-style: none; }
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.fl {
+  float: left; }
+
+.fr {
+  float: right; }
+
+.cf:before, .cf:after {
+  content: "";
+  display: table; }
+
+.cf:after {
+  clear: both; }
+
+.cf {
+  zoom: 1; }
+
+

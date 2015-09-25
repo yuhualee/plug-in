@@ -188,6 +188,10 @@
 			$('.filter-bd .list').removeClass('current');
 		});
 
+		$('.filter-mask').on('touchmove',function(e){
+			e.preventDefault();
+		});
+
 		$(window).scroll(onscroll);
 		onscroll();
 

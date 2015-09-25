@@ -64,7 +64,7 @@
 	.filter-mask{position: fixed;left: 0;top: 0;bottom:0;width: 100%;background-color: rgba(0,0,0,0.4);z-index: 998;display: none;}
 	.filter-box .filter-nav{position: relative;z-index: 999;width: 100%;height: 40px;background-color: #fff;line-height: 40px;overflow: hidden;border-bottom: 1px solid #ccc;}
 	.filter-box .filter-nav .li{float: left;display: inline;width: 25%;text-align: center;}
-	.filter-bd{position: relative;z-index: 999;background-color: #f1f1f1;width: 100%;height: 250px;border-bottom: 1px solid #ccc;overflow:hidden;display: none;}
+	.filter-bd{position: relative;z-index: 999;background-color: #f1f1f1;width: 100%;height: 250px;border-bottom: 1px solid #ccc;overflow-y:scroll;display: none;}
 	.filter-bd .list{padding: 0 10px;position: absolute;width: 100%;display: none;}
 	.filter-bd .list.current{display: block;}
 	.filter-bd .list li{height: 40px;line-height: 40px;border-bottom: 1px solid #ddd;color: #666;}
@@ -149,7 +149,16 @@
 			<br><br><br><br><br><br>
 		</article>
 	</section>
-<script src="scripts/vendor.js"></script>
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="../bower_components/pjax/src/pjax.js"></script>
+<script src="../bower_components/zeptojs/src/zepto.js"></script>
+<script src="../bower_components/zeptojs/src/event.js"></script>
+<script src="../bower_components/zeptojs/src/touch.js"></script>
+<script src="../bower_components/zeptojs/src/fx.js"></script>
+<script src="../bower_components/swipejs/swipe.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
 <script>
 	var filter = $('.filter-box');
 	var filterTop = filter.offset().top;
@@ -170,6 +179,8 @@
 				$('.filter-mask').show();
 				$('.filter-bd').show();
 				$(role).addClass('current').siblings().removeClass('current');
+				sub_top = $(role).height() - $('.filter-nav').height();
+				console.log(sub_top);
 			});
 		});
 		$('.filter-mask').tap(function(){
@@ -187,44 +198,21 @@
 		onscroll();
 
 		$('.filter-bd').on('touchstart',function(e){
-			e.preventDefault();
 			var touchs = e.changedTouches[0];
 			startPostion = touchs.pageY;
 			// console.log(startPostion);
 
 		}).on('touchmove',function(e){
-			e.preventDefault();
+			var t = $(this).scrollTop();
 			var touchs = e.changedTouches[0];
-			moveDistanceY = touchs.pageY - startPostion;
-
-			top = parseInt($('.filter-bd .current').data('top'));
-			moveD = top + moveDistanceY;
-			console.log(moveD);
-
-			move(moveD);
-			startPostion = touchs.pageY;
-		}).on('touchend',function(){
-			top = parseInt($('.filter-bd .current').data('top'));
-			maxD = $('.filter-bd .current').height() - $('.filter-bd').height();
-			if(top > 0){
-			moveD = 0;
-			}else if(maxD > 0 && top < -maxD){
-				moveD = -maxD;
-			}else if(maxD < 0){
-				moveD = 0;
+			var d = touchs.pageY - startPostion;
+			console.log(d);
+			if ((t <= 0 && d > 0) || t >= sub_top && d < 0) {
+				e.preventDefault();
 			}
-			move(moveD);
 		});
 	};
 
-	var move = function(distance){
-		
-		$('.filter-bd .current').animate({
-			'-webkit-transform': 'translateY('+ distance +'px)',
-					transform: 'translateY('+ distance +'px)'
-				},10);
-		$('.filter-bd .current').data('top',distance);
-	}
 	
 	var onscroll = function(){
 		var winTop = $(window).scrollTop();

@@ -3,43 +3,184 @@
 <head>
 	<meta charset="UTF-8">
 	<title>整屏滑动</title>
-	<script src="js/jquery-1.9.1.min.js"></script>
-	<script src="js/modernizr.js"></script>
-	<script src="js/set.js"></script>
 	<style>
-	body, h1, h2, h3, h4, ul, ol, p{margin: 0;padding: 0;font-size: 14px;font-family: "Microsoft Yahei";}
+	body, h1, h2, h3, h4, ul, ol, p{margin: 0;padding: 0;font-size: 14px;font-family: Arial,"Microsoft Yahei","Hiragino Sans GB",sans-serif;}
 	html,body{height: 100%;overflow: hidden;}
 	h1,h2,h3{font-weight: normal;}
-	.main{width: 100%;height: 100%;position: absolute;left: 0;top: 0;background-color: #f8f8f8;}
-	.page{height: 100%;width: 100%;overflow: hidden;position: relative;}
+	.main,.page{height: 100%;position: relative;}
+	.main{width: 100%;background-color: #f8f8f8;}
+	.page{width: 100%;overflow: hidden;}
 	.page h1{font-size: 30px;}
 	.page:nth-of-type(1){background-color: #f90;}
 	.page:nth-of-type(2){background-color: #4fc9af;}
 	.page:nth-of-type(3){background-color: #0097e0;}
 	.page:nth-of-type(4){background-color: #6691af;}
 	.page:nth-of-type(5){background-color: #0f9;}
-	.page .box{width: 1000px;background-color: #fff;position: absolute;top: 0;left: 50%;margin-left: -500px;height: 100%;}
+	.page .box{width: 1000px;position: absolute;top: 0;left: 50%;margin-left: -500px;height: 100%;color: #fff;}
 	</style>
 </head>
 <body>
-	<div class="main">
-		<section class="page">
+	<div class="main" id="container">
+		<section class="page" id="page0">
 			<article class="box">
 				<h1>这是第一屏，先放文字测试一下</h1>
 			</article>
 		</section>
-		<section class="page">
-			<article class="box"></article>
+		<section class="page" id="page1">
+			<article class="box">2222222</article>
 		</section>
-		<section class="page">
-			<article class="box"></article>
+		<section class="page" id="page2">
+			<article class="box">3333333333</article>
 		</section>
-		<section class="page">
-			<article class="box"></article>
+		<section class="page" id="page3">
+			<article class="box">444444444</article>
 		</section>
-		<section class="page">
-			<article class="box"></article>
+		<section class="page"  id="page4">
+			<article class="box">555555555</article>
 		</section>
 	</div>
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script>
+	(function(){
+		var defaults = {
+			'container': '#container',
+			'pages': '.page',
+			'effect': 'ease',  //ease,ease-in,ease-out,linear
+			'duration': 1000,
+			'pagination': true,
+			'loop': false,
+			'keyboard': true,
+			'direction': 'vertical'  //horizontal,vertical
+		};
+
+		var win = $(window),
+				  containter,pages;
+
+		var opts = {},
+			canScroll = true;
+
+		var iIndex = 0;
+
+		var arrElement = [];
+
+		var SP = $.fn.pageSwitch = function(options){
+			opts = $.extend({},defaults,options || {});
+			container = $(opts.container);
+			pages = container.find(opts.pages);
+
+			pages.each(function(){
+				arrElement.push($(this));
+			});
+
+			return this.each(function(){
+				initLayout();
+			});
+		};
+
+		// scroll up
+		SP.moveSectionUp = function(){
+			if(iIndex){
+				iIndex--;
+			}else if(opts.loop){
+				iIndex = arrElement.length - 1;
+			}
+			scrollPage(arrElement[iIndex]);
+		};
+
+		// scroll down
+		SP.moveSectionDown = function(){
+			if(iIndex < arrElement.length - 1){
+				iIndex ++;
+			}else if(opts.loop){
+				iIndex = 0;
+			}
+			scrollPage(arrElement[iIndex]);
+		};
+
+		// scroll event
+		function scrollPage(ele){
+			var pos = ele.position();
+			if(typeof pos == 'undefined') return;
+			console.log(pos.top);
+			initEffects(pos,ele);
+		}
+
+		// mouse scroll event
+		$(document).on("mousewheel DOMMouseScroll", MouseWheelHandler);
+		function MouseWheelHandler(e) {
+			e.preventDefault();
+			var value = e.originalEvent.wheelDelta || -e.originalEvent.detail;
+			var delta = Math.max(-1, Math.min(1, value));
+			if(canScroll){
+				if (delta < 0) {
+					SP.moveSectionDown();
+				}else {
+					SP.moveSectionUp();
+				}
+			}
+			return false;
+		}
+
+		// horizontal layout initialization
+		function initLayout(){
+			var lens = pages.length,
+					   width, cellWidth, height,cellHeight;
+			if(opts.direction == 'vertical'){
+				height = (lens * 100) + '%';
+				cellHeight = (100 / lens).toFixed(2) + '%';
+				container.height(height);
+				pages.height(cellHeight);
+			}else if(opts.direction == 'horizontal'){
+				width = (lens * 100) + '%';
+				cellWidth = (100 / lens).toFixed(2) + '%';
+				container.width(width);
+				pages.width(cellWidth);
+			}
+		}
+
+		// initialization paging
+		function initPagination(){}
+
+		// pagination event
+		function paginationHandler(){}
+
+		// is support a certain property of CSS
+		function isSupportCss(property){}
+
+		// rendering effect
+		function initEffects(pos,ele){
+			// var transform = ["-webkit-transform","-ms-transform","-moz-transform","transform"],
+			// 	transition = ["-webkit-transition","-ms-transition","-moz-transition","transition"];
+
+			canScroll = false;
+
+			console.log(pos.top);
+			container.css({
+				'transition' : 'all '+opts.duration+'ms '+opts.easing,
+				'transform' : 'translateY(-' + pos.top + 'px)'
+			});
+			canScroll = true;
+		}
+
+		// window resize
+		var resizeId;
+		win.resize(function(){});
+
+		function reBuild(){}
+
+		// bind keyboard event
+		function keyDown(){}
+
+
+	})(jQuery);
+
+	$(function(){
+		$("#container").pageSwitch({
+			'loop' : true,
+			'keyboard' : true
+			// 'direction' : 'horizontal'
+		});
+	});
+	</script>
 </body>
 </html>

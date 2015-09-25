@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>lezyo</title>
+	<style>
+	*{padding: 0;margin: 0;}
+	*,*:after,*:before{box-sizing:border-box;}
+	html,body{height: 100%;width: 100%;}
+	.main{width: 100%;height: 100%;overflow: hidden;}
+	.top-pic{
+		width: 100%;
+		background-color: #f90;
+		color: #fff;
+		padding: 10px;
+		-webkit-backface-visibility: hidden;
+	    -webkit-transition-property: -webkit-transform;
+	    -webkit-transition-duration: 0s;
+	    -webkit-transition-timing-function: ease;
+	    transition-property: transform;
+	    transition-duration: 0s;
+	    transition-timing-function: ease;
+	}
+	.container{
+		-webkit-backface-visibility: hidden;
+	    -webkit-transition-property: -webkit-transform;
+	    -webkit-transition-duration: 0s;
+	    -webkit-transition-timing-function: ease;
+	    transition-property: transform;
+	    transition-duration: 0s;
+	    transition-timing-function: ease;
+	}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<section class="top-pic">这是第一屏，要求向滑动的时候，整体一屏滑上去</section>
+		<section class="container">
+			这是头部，
+			这是主体部分，滚动条滑动
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			这是主体部分，滚动条滑动
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			这是主体部分，滚动条滑动
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			这是主体部分，滚动条滑动
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			这是底部了
+		</section>
+	</div>
+	<!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="./bower_components/pjax/src/pjax.js"></script>
+    <script src="./bower_components/zeptojs/src/zepto.js"></script>
+    <script src="./bower_components/zeptojs/src/event.js"></script>
+    <script src="./bower_components/zeptojs/src/touch.js"></script>
+    <script src="./bower_components/zeptojs/src/fx.js"></script>
+    <script src="./bower_components/Swipe/swipe.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+	<script>
+	;(function(){
+		var winH = $(document.body).height();
+		var scale = winH;
+		var firstPanel = $('.top-pic');
+		firstPanel.height(winH);
+		var mainPanel = $(".container");
+		var startY, offsetY=0 , top=0, dis = 0;
+		
+		var move = function(ele,dis,time){
+			ele.style.webkitTransitionDuration = time;
+			ele.style.webkitTransform = 'translate3d(0, ' + dis + 'px, 0)';
+		}
+
+		firstPanel.on('touchstart',function(e){
+
+			startY = e.touches[0].pageY;
+
+			offsetY = 0;
+
+		}).on('touchmove',function(e){
+
+			e.preventDefault();
+
+			offsetY = e.touches[0].pageY - startY;
+
+			move(firstPanel.get(0),offsetY,'0s');
+			move(mainPanel.get(0),offsetY,'0s');
+
+
+		}).on('touchend',function(e){
+
+			var boundary = scale/10;
+
+			if(offsetY < -boundary){
+				move(firstPanel.get(0),-scale,'0.3s');
+				move(mainPanel.get(0),-scale,'0.3s');
+			}else{
+				move(firstPanel.get(0), 0,'0.3s');
+				move(mainPanel.get(0), 0,'0.3s');
+			}
+		});
+	
+
+
+		mainPanel.on('touchstart',function(e){
+
+			startY = e.touches[0].pageY;
+
+			top = mainPanel.offset().top;
+
+			offsetY = 0;
+
+		}).on('touchmove',function(e){
+
+			e.preventDefault();
+
+			offsetY = e.touches[0].pageY - startY;
+
+			dis = parseInt(offsetY-scale+top);
+
+			move(firstPanel.get(0), dis,'0s');
+			move(mainPanel.get(0), dis,'0s');
+
+
+		}).on('touchend',function(e){
+			top = mainPanel.offset().top;
+			if(top > 0){
+				move(firstPanel.get(0), 0,'0.3s');
+				move(mainPanel.get(0), 0,'0.3s');
+				
+			}else if(top < scale - mainPanel.height()){
+				dis = parseInt(-mainPanel.height());
+				move(firstPanel.get(0), dis,'0.3s');
+				move(mainPanel.get(0), dis,'0.3s');
+			}else{
+				dis = parseInt(top - winH + offsetY/3);
+				move(firstPanel.get(0), dis,'0.4s');
+				move(mainPanel.get(0), dis,'0.4s');
+			}
+		});
+
+	})();
+
+
+
+		// ;(function(){
+
+		// 	var winH = $(document.body).height();
+
+		// 	var scale = winH;
+
+		// 	var firstPanel = $('.top-pic');
+
+		// 	firstPanel.height(winH);
+
+		// 	var mainPanel = $(".container");
+
+		// 	var startY, offsetY=0 , top=0, dis = 0;
+
+		// 	var move = function(ele,dis,time){
+		// 		ele.style.webkitTransitionDuration = time;
+		// 		ele.style.webkitTransform = 'translate3d(0, ' + dis + 'px, 0)';
+		// 	}
+
+		// 	firstPanel.on('touchstart',function(e){
+
+		// 		startY = e.touches[0].pageY;
+
+		// 		offsetY = 0;
+
+		// 		startTime = new Date() * 1;
+
+		// 	}).on('touchmove',function(e){
+
+		// 		e.preventDefault();
+
+		// 		offsetY = e.touches[0].pageY - startY;
+
+		// 		move(firstPanel.get(0),offsetY,'0s');
+		// 		move(mainPanel.get(0),offsetY,'0s');
+
+
+		// 	}).on('touchend',function(e){
+
+		// 		var boundary = scale/10;
+
+		// 		if(offsetY < -boundary){
+		// 			move(firstPanel.get(0),-scale,'0.3s');
+		// 			move(mainPanel.get(0),-scale,'0.3s');
+		// 		}else{
+		// 			move(firstPanel.get(0), 0,'0.3s');
+		// 			move(mainPanel.get(0), 0,'0.3s');
+		// 		}
+		// 	});
+		
+
+
+		// 	mainPanel.on('touchstart',function(e){
+
+		// 		startY = e.touches[0].pageY;
+
+		// 		top = mainPanel.offset().top;
+
+		// 		offsetY = 0;
+
+		// 		startTime = new Date() * 1;
+
+		// 	}).on('touchmove',function(e){
+
+		// 		e.preventDefault();
+
+		// 		offsetY = e.touches[0].pageY - startY;
+
+		// 		dis = parseInt(offsetY-scale+top);
+
+		// 		move(firstPanel.get(0), dis,'0s');
+		// 		move(mainPanel.get(0), dis,'0s');
+
+
+		// 	}).on('touchend',function(e){
+		// 		top = mainPanel.offset().top;
+		// 		if(top > 0){
+		// 			move(firstPanel.get(0), 0,'0.3s');
+		// 			move(mainPanel.get(0), 0,'0.3s');
+					
+		// 		}else if(top < scale - mainPanel.height()){
+		// 			dis = parseInt(-mainPanel.height());
+		// 			move(firstPanel.get(0), dis,'0.3s');
+		// 			move(mainPanel.get(0), dis,'0.3s');
+		// 		}else{
+		// 			dis = parseInt(top - winH + offsetY/3);
+		// 			move(firstPanel.get(0), dis,'0.4s');
+		// 			move(mainPanel.get(0), dis,'0.4s');
+		// 		}
+		// 	});
+
+		// })();
+
+	</script>
+</body>
+</html>
