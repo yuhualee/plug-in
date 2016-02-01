@@ -8,20 +8,42 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<title>分享调研</title>
 	
-	
+	<style>
+	*{padding: 0;margin: 0;}
+	body{color: #333;line-height: 1.4;}
+	div{margin-top: 20px;padding: 10px;}
+	h2{font-size: 18px;}
+	dl{margin: 10px 0;}
+	dt{font-size: 16px;font-weight: bold;}
+	dd{font-size: 14px;padding-left: 10px;margin-top: 10px;}
+	</style>
 </head>
 <body>
 	<section class="wrap">
 		<article>
-			<a href="http://ask.dcloud.net.cn/article/36">http://ask.dcloud.net.cn/article/36</a>
-			<a href="http://www.jiathis.com/getcode/mobile">http://www.jiathis.com/getcode/mobile</a>
-		</article>
-		<article>
-			<p>我们无法直接通过js直接跳转到微信和QQ等软件进行分享，只能调用所在的app来是现实分享。所在的app包括，各种浏览器、自家的app、微信等。</p>
+			
+			<div>
+				<h2>单纯的web app 很难调用Android和ios的原生分享功能，如果要实现可以有以下方式：</h2>
+				<dl>
+					<dt>方法一：使用社交平台提供的web版分享功能</dt>
+					<dd><b>优点：</b> web版分享功能，这种方式功能比较简单，可以满足很简单的分享需求。</dd>
+					<dd><b>缺点：</b>但在移动端使用用户体验不好，页面跳转后不会自动跳转回来。</dd>
+					<dd><b>比如：</b>jiaThis( http://www.jiathis.com/getcode/mobile)，百度分享等。</dd>
+				</dl> 
+				<dl>
+					<dt>方法二：调用app分享接口</dt>
+					<dd><b>优点：</b></dd>
+					<dd><b>缺点：</b></dd>
+				</dl>
+				<dl>
+					<dt>方法三：借助第三方应用的分享接口来调用 </dt>
+					<p>目前来说只能借助第三方应用的分享接口来调用，主要原因是各app是闭环，限制url Scheme接口。</p>
+					<dd><b>优点：</b>可以通过javascript直接调用第三方原生分享接口来调用，比web分享在用户体验方面表现的好</dd>
+					<dd><b>缺点：</b>但手机app众多，比如：QQ浏览器，uc浏览器，safari，微信，一一针对来实现比较麻烦</dd>
+					<dd><b>比如：</b>https://github.com/JefferyWang/nativeShare.js</dd>
+				</dl>
 
-			<a href="https://github.com/JefferyWang/nativeShare.js">一个可以通过javascript直接调用原生分享的工具</a>
-
-
+			</div>
 		</article>
 	</section>
 	

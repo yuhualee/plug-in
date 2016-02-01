@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>form verfication</title>
+	<style>
+	*{padding: 0;margin: 0;}
+	form{
+		width: 500px;
+		margin: 0 auto;
+		padding: 100px 0;
+	}
+	div{
+		overflow: hidden;
+		margin-bottom: 10px;
+	}
+	label{
+		float: left;
+		display: inline;
+		width: 250px;
+	}
+	label span{
+		float: left;
+		width: 100px;
+	}
+	label .text{
+		float: left;
+		width: 140px;
+	}
+	.msg{
+		float: right;
+		display: inline;
+		width: 240px;
+		display: none;
+	}
+	.msg i{
+		margin-right: 10px;
+		font-style: normal;
+	}
+	.msg .ati{
+		color: green;
+	}
+	.msg .err{
+		color: red;
+	}
+	.pwd_tip{
+		padding-left: 100px;
+	}
+	.pwd_tip em{
+		width: 47px;
+		float: left;
+		display: inline;
+		margin-right: 2px;
+		height: 20px;
+		line-height: 20px;
+		font-size: 12px;
+		text-align: center;
+		background-color: #fc7;
+		font-style: normal;
+		color: #fff;
+	}
+	.pwd_tip em.active{
+		background-color: #f90;
+	}
+	</style>
+	<script>
+	// 获取长度
+	function getLength(str){
+		return str.replace(/[^\x00-\xff]/g,'xx').length;
+	}
+	// 不能有相同字符
+	function findStr(str,n){
+		var tmp = 0;
+		for(var i=0; i<str.length; i++){
+			if(str.charAt(i) == n){
+				tmp++;
+			}
+		}
+		return tmp;
+	}
+
+	window.onload = function(){
+		var aInput = document.getElementsByTagName('input');
+		var oName = aInput[0];
+		var pwd = aInput[1];
+		var pwd2 = aInput[2];
+		var aP = document.getElementsByTagName('p');
+		var name_msg = aP[0];
+		var pwd_msg = aP[1];
+		var pwd2_msg = aP[2];
+		var count = document.getElementById('count');
+		var aEm = document.getElementsByTagName('em');
+		var name_length = 0;
+
+		
+		// username input
+		oName.onfocus = function(){
+			name_msg.style.display = 'block';
+			name_msg.innerHTML = '<i class="ati" style="color:green;">提示</i>5-25个字符，一个汉字为两个字符，推荐使用中文会员名';
+		}
+		oName.onkeyup = function(){
+			count.style.visibility = 'visible';
+			name_length = getLength(this.value);
+			count.innerHTML = name_length + '个字符';
+			if(name_length == 0){
+				count.style.visibility = 'hidden';
+			}
+		}
+		oName.onblur = function(){
+			// username : 数字，字母，汉字，下划线
+			var reg = /[^\w\u4e00-\u9fa5]/g;
+			if(reg.test(this.value)){
+				name_msg.innerHTML = '<i class="err">错误</i>您输入的有非法字符';
+			}else if(this.value == ""){
+				name_msg.innerHTML = '<i class="err">错误</i>不能为空';
+			}else if(name_length > 25){
+				name_msg.innerHTML = '<i class="err">错误</i>不能超过25个字符';
+			}else if(name_length < 6){
+				name_msg.innerHTML = '<i class="err">错误</i>不能少于5个字符';
+			}else{
+				name_msg.innerHTML = '<i class="ati"">提示</i>设置成功！';
+			}
+
+		}
+
+		// password input
+		pwd.onfocus = function(){
+			pwd_msg.style.display = 'block';
+			pwd_msg.innerHTML = '<i class="ati">提示</i>请输入6-16位密码';
+		}
+		pwd.onkeyup = function(){
+
+			if(this.value.length > 5){
+				aEm[1].className = 'active';
+				pwd2.removeAttribute('disabled');
+				pwd2_msg.style.display = 'block';
+				pwd2_msg.innerHTML = '<i class="ati">提示</i>请再次输入密码！';
+			}else if(this.value.length < 5){
+				pwd2.setAttribute('disabled','');
+				aEm[1].className = '';
+				pwd2_msg.style.display = 'none';
+			}
+
+			if(this.value.length > 10){
+				aEm[2].className = 'active';
+			}else{
+				aEm[2].className = '';
+			}
+		}
+		pwd.onblur = function(){
+			var m = findStr(pwd.value,pwd.value[0]);
+			var reg_n = /[^\d]/g;
+			var reg_s = /[^a-zA-Z]/g;
+			// 不能为空
+			if(this.value == ''){
+				pwd_msg.innerHTML = '<i class="err">错误</i>不能为空';
+			}
+			// 不能用相同字符
+			else if(m == this.value.length){
+				pwd_msg.innerHTML = '<i class="err">错误</i>不能输入相同字符';
+			}
+
+			// 长度
+			else if(this.value.length < 6 || this.value.length > 16){
+				pwd_msg.innerHTML = '<i class="err">错误</i>密码长度太长或者太短';
+			}
+
+			// 不能全为数字
+			else if(!reg_n.test(this.value)){
+				pwd_msg.innerHTML = '<i class="err">错误</i>不能全为数字';
+			}
+			// 不能全为字母
+			else if(!reg_s.test(this.value)){
+				pwd_msg.innerHTML = '<i class="err">错误</i>不能全为字母';
+			}
+			// ok
+			else{
+				pwd_msg.innerHTML = '<i class="ati">成功！</i>';
+			}
+		}
+
+		// confirm password input
+		pwd2.onblur = function(){
+			if(this.value != pwd.value){
+				pwd2_msg.innerHTML = '<i class="err">错误</i>两次输入密码不一致！';
+			}else{
+				pwd2_msg.innerHTML = '<i class="ati">成功！</i>';
+			}
+		}
+	};
+	</script>
+</head>
+<body>
+	<form action="">
+		<div>
+			<label for="">
+				<span>会员名：</span>
+				<input type="text" class="text">
+			</label>
+			<p class="msg">
+			</p>
+		</div>
+		<div>
+			<label for="">
+				<span></span>
+				<b id="count">0个字符</b>
+			</label>
+		</div>
+		<div>
+			<label for="">
+				<span>登录密码</span>
+				<input type="password" class="text">
+			</label>
+			<p class="msg">
+				<i class="err"></i>
+				请输入6-8位密码
+			</p>
+		</div>
+		<div class="pwd_tip">
+			<label for="">
+				<span></span>
+				<em class="active">弱</em>
+				<em>中</em>
+				<em>强</em>
+			</label>
+		</div>
+		<div>
+			<label for="">
+				<span>确认密码：</span>
+				<input type="password" class="text" disabled="">
+			</label>
+			<p class="msg">
+				<i class="ati"></i>
+				请再输入一次
+			</p>
+		</div>
+		<div>
+			<input type="submit" class="submitBtn btn" value="同意协议并注册">
+		</div>
+	</form>
+</body>
+</html>

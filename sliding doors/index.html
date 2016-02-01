@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>滑动门</title>
+	<style>
+	* {padding: 0;margin: 0;}
+	*,*:after,*:before{box-sizing:border-box;}
+	.wrap{
+		overflow: hidden;
+		width: 800px;
+		margin: 100px auto;
+	}
+	.wrap ul{
+		list-style:none;
+	}
+	.wrap li{
+		float: left;
+		width: 100px;
+		height: 300px;
+		padding: 10px;
+		color: #fff;
+		line-height: 24px;
+		-webkit-transition:all 0.5s ease-in;
+		   -moz-transition:all 0.5s ease-in;
+				transition:all 0.5s ease-in;
+	}
+	.wrap li:nth-of-type(1){
+		background-color: #f90;
+	}
+	.wrap li:nth-of-type(2){
+		background-color: #f09;
+	}
+	.wrap li:nth-of-type(3){
+		background-color: #09f;
+	}
+	.wrap li:nth-of-type(4){
+		background-color: #0f9;
+	}
+	.wrap .current{
+		width: 500px;
+	}
+	</style>
+	<script>
+	window.onload = function(){
+		var oUl = document.getElementById('ul');
+		var aLi = oUl.getElementsByTagName('li');
+		for(var i=0; i<aLi.length; i++){
+			aLi[i].index = i;
+			aLi[i].onmouseover = function(){
+				for(var j=0; j<aLi.length; j++){
+					aLi[j].className = '';
+				}
+				aLi[this.index].className = 'current';
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div class="wrap">
+		<ul id="ul">
+			<li class="item current">这是第1个模块</li>
+			<li class="item">这是第2个模块</li>
+			<li class="item">这是第3个模块</li>
+			<li class="item">这是第4个模块</li>
+		</ul>
+	</div>
+</body>
+</html>

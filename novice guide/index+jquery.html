@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用jquery实现novice guide</title>
+	<style>
+	*{padding: 0;margin: 0;}
+	html,body{height: 100%;}
+	.wrap{width: 960px;overflow: hidden;margin: 0 auto;padding-top: 100px;}
+	.wrap .item{float: left;margin:0 10px 10px 0;text-align: center;color: #fff;display:-webkit-flex;display:-moz-flex;display:-ms-flex;display: flex;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;align-items:center;-webkit-justify-content:center;-moz-justify-content:center;-ms-justify-content:center;justify-content:center;}
+	.wrap .item1{width: 200px;height: 200px;background-color: #f90;}
+	.wrap .item2{width: 300px;height: 200px;background-color: #f09;}
+	.wrap .item3{width: 430px;height: 200px;background-color: #09f;}
+	.wrap .item4{width: 280px;height: 200px;background-color: #0f9;}
+	.wrap .item5{width: 430px;height: 200px;background-color: #90f;}
+	.wrap .item6{width: 220px;height: 200px;background-color: #9a0;}
+	.wrap .item7{width: 400px;height: 200px;background-color: #f46;}
+	.wrap .item8{width: 265px;height: 200px;background-color: #f6f;}
+	.wrap .item9{width: 265px;height: 200px;background-color: #6f9;}
+	.mask{position: absolute;top:0;left:0;width: 100%;height: 100%;background-color: #000;opacity: 0.5;filter:alpha(opacity=50);display: none;}
+	.search{position: absolute;left: 50%;top: 100px;margin-left: -490px; width: 960px;height: 630px;display: none;}
+	.step{position: absolute;width: 300px;height: 200px;border: 1px solid #666;border-radius: 10px;background-color: #fff;text-align: center;display: none;}
+	.step1{left: 100px;top: 0;}
+	.step2{left: 200px;top: 50px;}
+	.step3{left: 300px;top: 100px;}
+	.step4{left: 500px;top: 200px;}
+	.step5{left: 600px;top: 300px;}
+	.step p{padding-top: 50px;margin-bottom: 30px;}
+	.close{position: absolute;right: 0;top: 0;font-size: 20px;cursor: pointer;padding: 10px;}
+	</style>
+	<script src="../jquery-1.11.2.min.js"></script>
+	<script>
+	$(function(){
+
+		// 读取cookie
+		var res = document.cookie.substring(5);
+		alert(res);
+
+		// 如果没有cookie，执行以下动作
+
+		if(res != 'www.open.com.cn'){
+			// next btn
+			$('#mask, #search, #search div:eq(0)').show();
+			// close btn
+			$('#search div a').click(function(){
+				$(this).parent().hide().next().show();
+			});
+
+			$('#search div span.close,#search div a:last').click(function(){
+				$('#mask, #search').hide();
+			});
+
+			// set cookie
+			var oDate = new Date();
+			oDate.setDate(oDate.getDate() + 30);
+			document.cookie = 'name = www.open.com.cn; expires =' + oDate;
+		}
+	});
+	</script>
+</head>
+<body>
+	<div class="wrap">
+		<span class="item item1">item1</span>
+		<span class="item item2">item2</span>
+		<span class="item item3">item3</span>
+		<span class="item item4">item4</span>
+		<span class="item item5">item5</span>
+		<span class="item item6">item6</span>
+		<span class="item item7">item7</span>
+		<span class="item item8">item8</span>
+		<span class="item item9">item9</span>
+	</div>
+	<div class="mask" id="mask"></div>
+	<div class="search" id="search">
+		<div class="step step1">
+			<span class="close">x</span>
+			<p>这是第1步，请点击</p>
+			<a href="#" class="next">下一步</a>
+		</div>
+		<div class="step step2">
+			<span class="close">x</span>
+			<p>这是第2步，请点击</p>
+			<a href="#" class="next">下一步</a>
+		</div>
+		<div class="step step3">
+			<span class="close">x</span>
+			<p>这是第3步，请点击</p>
+			<a href="#" class="next">下一步</a>
+		</div>
+		<div class="step step4">
+			<span class="close">x</span>
+			<p>这是第4步，请点击</p>
+			<a href="#" class="next">下一步</a>
+		</div>
+		<div class="step step5">
+			<span class="close">x</span>
+			<p>这是第5步，请点击</p>
+			<a href="#" class="next">关闭</a>
+		</div>
+	</div>
+</body>
+</html>
