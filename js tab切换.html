@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>js</title>
+	<style>
+	*{
+		padding: 0;
+		margin: 0;
+	}
+	ul{
+		list-style:none;
+	}
+	.tab{
+		width: 400px;
+		margin: 10px auto;
+	}
+	.tab-hd{
+		height: 30px;
+		background-color: #f1f1f1;
+		overflow: hidden;
+		zoom:1;
+	}
+	.tab-hd li{
+		float: left;
+		width: 25%;
+		text-align: center;
+		line-height: 30px;
+		cursor: pointer;
+	}
+	.tab-hd li.selected{
+		background-color: #0097e0;
+		color: #fff;
+	}
+	.tab-bd li{
+		display: none;
+		border: 1px solid #ccc;
+		min-height: 200px;
+		padding: 10px;
+	}
+	.tab-bd li.selected{
+		display: block;
+	}
+	</style>
+</head>
+<body>
+	<div id="tab" class="tab">
+		<div class="tab-hd">
+			<ul id="tab-hd">
+				<li class="selected">服装</li>
+				<li>童装</li>
+				<li>母婴</li>
+				<li>家居</li>
+			</ul>
+		</div>
+		<div class="tab-bd">
+			<ul id="tab-bd">
+				<li class="selected">这里放的是服装类的0000</li>
+				<li>这里放的是童装类的11111</li>
+				<li>这里放的是母婴类的22222</li>
+				<li>这里放的是家居类的33333</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+	function $(id){
+		return typeof id == 'string' ? document.getElementById(id) : id;
+	}
+	window.onload = function(){
+		var tabHd = $('tab-hd').getElementsByTagName('li');
+		var tabBd = $('tab-bd').getElementsByTagName('li');
+		if(tabHd.length != tabBd.length){
+			return;
+		}
+		for(var i=0; i<tabHd.length; i++){
+			tabHd[i].id = i;
+			tabHd[i].onmouseover = function(){
+				for(var j=0; j<tabHd.length; j++){
+					tabHd[j].className = '';
+					tabBd[j].className = '';
+				}
+				this.className = 'selected';
+				tabBd[this.id].className = 'selected';
+			}
+		}
+	}
+	</script>
+</body>
+</html>
