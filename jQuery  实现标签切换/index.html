@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery 标签切换</title>
+	<style>
+	*{
+		padding: 0;
+		margin: 0;
+	}
+	ul{
+		list-style:none;
+	}
+	.tab{
+		width: 400px;
+		margin: 10px auto;
+	}
+	.tab-hd{
+		height: 30px;
+		background-color: #f1f1f1;
+		overflow: hidden;
+		zoom:1;
+	}
+	.tab-hd li{
+		float: left;
+		width: 33%;
+		text-align: center;
+		line-height: 30px;
+		cursor: pointer;
+	}
+	.tab-hd li.selected{
+		background-color: #0097e0;
+		color: #fff;
+	}
+	.tab-bd li{
+		display: none;
+		border: 1px solid #ccc;
+		min-height: 200px;
+		padding: 10px;
+	}
+	.tab-bd li.selected{
+		display: block;
+	}
+	</style>
+</head>
+<body>
+	<div id="tab" class="tab">
+		<div class="tab-hd">
+			<ul id="tab-hd">
+				<li class="selected">装入完整页面</li>
+				<li>装入部分页面</li>
+				<li>从远程获取数据</li>
+			</ul>
+		</div>
+		<div class="tab-bd">
+			<ul id="tab-bd">
+				<li class="selected">这里放的是服装类的0000</li>
+				<li>这里放的是童装类的11111</li>
+				<li>这里放的是母婴类的22222</li>
+			</ul>
+		</div>
+	</div>
+<script src="../jquery-1.11.2.min.js"></script>	
+<script>
+	$(document).ready(function(){
+		$('#tab .tab-hd li').each(function(index){
+			$(this).mouseover(function(){
+				$(this).addClass('selected').siblings().removeClass('selected');
+				$('.tab-bd li').removeClass('selected').eq(index).addClass('selected');
+			});
+		});
+	});
+</script>
+</body>
+</html>
