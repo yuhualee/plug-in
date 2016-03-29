@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<!--这meta的作用就是删除默认的苹果工具栏和菜单栏-->
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<!--控制状态栏显示样式-->
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<!--静止拨打电话号码-->
+	<meta content="telephone=no" name="format-detection" />
+	<title>swiper</title>
+	<style>
+	@-webkit-keyframes rotating{
+		from{
+			-webkit-transform:rotate(0deg);
+			}
+		to  {
+			-webkit-transform:rotate(360deg);
+			}
+		}
+	@-moz-keyframes rotating{
+		from{
+			-moz-transform:rotate(0deg);
+			}
+		to  {
+			-moz-transform:rotate(360deg);
+			}
+		}
+	@keyframes rotating{
+		from{
+			transform:rotate(0deg);
+			}
+		to  {
+			transform:rotate(360deg);
+			}
+		}
+
+	html,body{margin: 0;padding: 0;width: 100%;height: 100%;background-color: #f90}
+	.music{
+		position: fixed;
+		right: 20px;
+		top: 20px;
+		width: 32px;
+		height: 32px;
+		background: url(music.png) no-repeat center;
+		background-size: 100%;
+		z-index: 111;
+	}
+	.rotate{
+		-webkit-animation: rotating 1s linear infinite;
+		-moz-animation: rotating 1s linear infinite;
+		animation: rotating 1s linear infinite;
+	}
+	</style>
+</head>
+<body>
+	<div class="music"></div>
+	<!-- js -->
+	<script type="text/javascript" src="../jquery-1.11.2.min.js"></script>
+	
+	<script>
+		
+	;(function($){
+		var Myaudio = function(element,options){
+			this.element = element;
+			this.options = {
+				autoplay : true,
+				loop : true,
+				preload : true,
+				url : '1.mp3',
+				className: 'rotate',
+				cancel: function(){
+
+				},
+				success: function(){
+
+				},
+				init: function(){
+
+				}
+			};
+			this.defaults = $.extend({},this.options,options ||{});
+		};
+		Myaudio.prototype = {
+			init: function(){
+				var myMusic = $('<audio></audio>').appendTo(this.element);
+				myMusic.attr('src', this.defaults.url);
+
+				this.setAutoplay(myMusic,this.element);
+				this.setLoop(myMusic);
+				this.setPreload(myMusic);
+				this.playOrPause(myMusic,this.element);
+			},
+			setAutoplay: function(myMusic,ele){
+				if(this.defaults.autoplay){
+					myMusic.attr('autoplay', 'autoplay');
+					ele.addClass(this.defaults.className);
+				}else{
+					myMusic.removeAttr('autoplay');
+					ele.removeClass(this.defaults.className);
+				}
+			},
+			setLoop: function(myMusic){
+				if(this.defaults.loop){
+					myMusic.attr('loop', 'loop');
+				}else{
+					myMusic.removeAttr('loop');
+				}
+			},
+			setPreload : function(myMusic){
+				if(this.defaults.preload){
+					myMusic.attr('preload', 'auto');
+				}else{
+					myMusic.removeAttr('preload');
+				}
+			},
+			playOrPause : function(audio,ele){
+				ele.on('click tap',function(){
+					if(audio.get(0).paused){
+						audio.get(0).play();
+						ele.addClass('rotate');
+					}else{
+						ele.removeClass('rotate');
+						audio.get(0).pause();
+					}
+				});
+			}
+		};
+		$.fn.audioPlugin = function(options){
+			var audio = new Myaudio(this,options);
+			return audio.init();
+		};
+
+		$('.music').audioPlugin({
+			// 'autoplay': false,
+			'loop': false
+		});
+
+	})(jQuery);
+
+	</script>
+</body>
+</html>
