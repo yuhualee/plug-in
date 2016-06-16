@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>tooltip</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+	*{padding: 0;margin: 0;font-size: 18px;}
+	.item{
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		padding: 10px;
+		line-height: 20px;
+		margin: 10px;
+		display: block;
+		height: 100px;
+	}
+	.item.hover{
+		background-color: #eee;
+	}
+	.item:nth-of-type(1){
+		/*height: 20px;*/
+		display: -webkit-box;
+    	-webkit-line-clamp: 1;
+    	-webkit-box-orient: vertical;
+    	overflow: hidden;
+	}
+	.tooltip{
+		background-color: rgba(0,0,0,0.5);
+		color: #fff;
+		width: 50%;
+		border-radius: 5px;
+		padding:10px;
+		line-height: 1.5;
+		font-size: 14px;
+		position: absolute;
+		right: 20%;
+		top: 0;
+	}
+	.tooltip .tooltip-arrow{
+		position: absolute;
+		left: 50%;
+		top: 0;
+		width: 0;
+		height: 0;
+		border-top:5px solid rgba(0,0,0,0.5);
+		border-left:5px solid rgba(0,0,0,0.5);
+		border-right:5px solid rgba(0,0,0,0);
+		border-bottom:5px solid rgba(0,0,0,0);
+		transform:translate(-50%,-5px) rotate(45deg);
+	}
+	.arrow-down .tooltip-arrow{
+		bottom: 0;
+		top: auto;
+		transform:translate(-50%,5px) rotate(-135deg);
+	}
+	</style>
+</head>
+<body>
+	<span class="item hover" data-toggle="tooltip">tooltip1，我想设置一行显示，超出隐藏，一行能写多少字不确定</span>
+	<span class="item" data-toggle="tooltip" title="title上显示的信息">tooltip2</span>
+	<span class="item" data-toggle="tooltip">tooltip3</span>
+	<span class="item" data-toggle="tooltip">tooltip4</span>
+	<span class="item" data-toggle="tooltip">tooltip1，我想设置一行显示，超出隐藏，一行能写多少字不确定</span>
+	<span class="item" data-toggle="tooltip">tooltip2</span>
+	<span class="item" data-toggle="tooltip">tooltip3</span>
+	<span class="item" data-toggle="tooltip">tooltip4</span>
+	<span class="item" data-toggle="tooltip">tooltip1，我想设置一行显示，超出隐藏，一行能写多少字不确定</span>
+	<span class="item" data-toggle="tooltip">tooltip2</span>
+	<span class="item" data-toggle="tooltip">tooltip3</span>
+	<span class="item" data-toggle="tooltip">tooltip4</span>
+
+	<!-- <div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner">tooltip1，我想设置一行显示，超出隐藏，一行能写多少字不确定</div></div> -->
+<script src="../jquery-1.11.2.min.js"></script>
+<script>
+	// var dom = $('<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>');
+	// var winHeight = $(window).height();
+
+	// $('[data-toggle="tooltip"]').each(function(){
+	// 	$(this).on('click',function(){
+	// 		var offsetTop = $(this).offset().top;
+	// 		var scrollTop = $('body').scrollTop();
+	// 		var currentHeight = $(this).outerHeight();
+
+	// 		$('body').append(dom);
+	// 		$('.tooltip-inner').text($(this).text());
+			
+	// 		if((scrollTop + winHeight) - (offsetTop + currentHeight) >= dom.outerHeight()){
+
+	// 			if(dom.hasClass('arrow-down')){
+	// 				dom.removeClass('arrow-down');
+	// 			}
+	// 			dom.css({'top':parseInt(currentHeight) + parseInt(offsetTop) + 'px'});
+
+	// 		}else{
+	// 			dom.css({'top': parseInt(offsetTop) - parseInt(dom.outerHeight()) + 'px'}).addClass('arrow-down');
+	// 		}
+
+	// 	});
+	// });
+
+
+	(function($){
+
+		$.fn.tooltip = function(config){
+
+			var config =  $.extend(true, {
+				title: ''
+			}, config);
+
+			var that = $(this);
+
+			// 此值当窗口变化是还需要改变（监听resize事件）
+			var winHeight = $(window).height();
+			$(window).resize(function(){
+				winHeight = $(window).height();
+			});
+
+			var dom_show = function(title){
+
+				var offsetTop = this.offset().top;
+				var scrollTop = $('body').scrollTop();
+				var currentHeight = this.outerHeight();
+
+				$('body').append(this.dom.show());
+				this.dom.find('.tooltip-inner').text(title);
+				
+				if((scrollTop + winHeight) - (offsetTop + currentHeight) >= this.dom.outerHeight()){
+
+					if(this.dom.hasClass('arrow-down')){
+						this.dom.removeClass('arrow-down');
+					}
+					this.dom.css({'top':parseInt(currentHeight) + parseInt(offsetTop) + 'px'});
+
+				}else{
+					this.dom.css({'top': parseInt(offsetTop) - parseInt(this.dom.outerHeight()) + 'px'}).addClass('arrow-down');
+				}
+
+			}
+
+			this.each(function(){
+
+				var that = $(this);
+
+				that.dom = $('<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>');
+
+				that.on('click',function(){
+
+					if(that.dom.is(':visible')){
+						that.dom.fadeOut();
+					}else{
+						$('.tooltip').hide();
+						dom_show.apply(that, [config.title]);	
+					}
+					setTimeout(function(){
+						that.dom.fadeOut();
+					},3000);
+					
+				});
+
+
+			});
+
+		}
+
+		$('[data-toggle="tooltip"]').each(function(){
+
+			var title = $(this).attr('title');
+
+			$(this).tooltip({
+				"title": title || $(this).text()
+			});
+		});
+
+	})(jQuery);
+
+
+
+</script>
+</body>
+</html>
